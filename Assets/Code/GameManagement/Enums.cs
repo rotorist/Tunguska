@@ -147,6 +147,7 @@ public enum FXType
 {
 	BulletHole,
 	BulletImpact,
+	BloodSpatter,
 	Explosion,
 }
 

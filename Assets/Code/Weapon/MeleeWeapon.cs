@@ -61,9 +61,21 @@ public class MeleeWeapon : Weapon
 			}
 			else
 			{
-				GameObject impact = GameManager.Inst.FXManager.LoadFX("WFX_BloodSmoke", 0, FXType.BulletImpact);
-				impact.transform.position = pos;
-				impact.transform.rotation = Quaternion.LookRotation(this.transform.forward);
+				GameObject impact = null;
+
+				if(pos.y > hitCharacter.transform.position.y + collision.collider.bounds.size.y * 0.75f)
+				{
+					impact = GameManager.Inst.FXManager.LoadFX("MeleeBlood1", 1, FXType.BloodSpatter);
+					impact.transform.position = pos - new Vector3(0, 0.5f, 0);
+				}
+				else
+				{
+					impact = GameManager.Inst.FXManager.LoadFX("MeleeBlood2", 1, FXType.BloodSpatter);
+					impact.transform.position = pos;
+				}
+
+				impact.transform.parent = hitCharacter.transform;
+				impact.transform.rotation = Quaternion.LookRotation(normal);
 
 				if(Attacker == GameManager.Inst.PlayerControl.SelectedPC)
 				{

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 //this manager's purpose is to keep track of 
 //created FX and remove them
@@ -9,10 +10,22 @@ public class FXManager : MonoBehaviour
 	private GameObject [] _bulletHoles;
 	private float [] _bulletHoleTimers;
 
+	private class BloodSpatter
+	{
+		public GameObject Spatter;
+		public float TTL;
+		public float Timer;
+	}
+
+	private List<BloodSpatter> _bloodSpatters;
+
 	public void Initialize(int maxBulletHoles)
 	{
 		_bulletHoles = new GameObject[maxBulletHoles];
 		_bulletHoleTimers = new float[maxBulletHoles];
+
+		_bloodSpatters = new List<BloodSpatter>();
+
 		TimerEventHandler.OnOneSecondTimer += ManagerPerSecondUpdate;
 	}
 
@@ -31,6 +44,19 @@ public class FXManager : MonoBehaviour
 				}
 			}
 		}
+
+		List<BloodSpatter> _bloodSpattersCopy = new List<BloodSpatter>(_bloodSpatters);
+		foreach(BloodSpatter spatter in _bloodSpattersCopy)
+		{
+			if(spatter.Timer >= spatter.TTL)
+			{
+				_bloodSpatters.Remove(spatter);
+				GameObject.Destroy(spatter.Spatter);
+			}
+
+			spatter.Timer += 1;
+		}
+	
 	}
 
 	public GameObject LoadFX(string fxName, float ttl, FXType type)
@@ -52,6 +78,14 @@ public class FXManager : MonoBehaviour
 			break;
 		case FXType.BulletImpact:
 			//don't need to do anything; autodestruct
+			break;
+		case FXType.BloodSpatter:
+			fx.transform.localScale = new Vector3(2, 2, 2);
+			BloodSpatter spatter = new BloodSpatter();
+			spatter.Spatter = fx;
+			spatter.TTL = ttl;
+			spatter.Timer = 0;
+			_bloodSpatters.Add(spatter);
 			break;
 		}
 
