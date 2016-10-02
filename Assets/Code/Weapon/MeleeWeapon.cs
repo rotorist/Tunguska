@@ -70,6 +70,7 @@ public class MeleeWeapon : Weapon
 					if(GameManager.Inst.PlayerControl.SelectedPC.IsComboAttack())
 					{
 						GameManager.Inst.CameraShaker.TriggerTempSlow(0.08f);
+						GameManager.Inst.CameraShaker.TriggerZoomShake(0.1f, 0.55f);
 					}
 					else
 					{
