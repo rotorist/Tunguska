@@ -54,7 +54,7 @@ public class MeleeWeapon : Weapon
 
 				if(Attacker == GameManager.Inst.PlayerControl.SelectedPC)
 				{
-					GameManager.Inst.CameraShaker.TriggerScreenShake(0.05f, 0.04f);
+					GameManager.Inst.CameraShaker.TriggerScreenShake(0.05f, 0.08f);
 
 				}
 

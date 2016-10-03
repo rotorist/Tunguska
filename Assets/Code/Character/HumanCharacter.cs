@@ -1024,7 +1024,7 @@ public class HumanCharacter : Character
 
 			if(MyAI.ControlType == AIControlType.Player)
 			{
-				GameManager.Inst.CameraShaker.TriggerScreenShake(0.07f, 0.07f);
+				GameManager.Inst.CameraShaker.TriggerScreenShake(0.07f, 0.09f);
 			}
 
 			return true;
