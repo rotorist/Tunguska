@@ -81,13 +81,16 @@ public class MeleeWeapon : Weapon
 				{
 					if(GameManager.Inst.PlayerControl.SelectedPC.IsComboAttack())
 					{
-						GameManager.Inst.CameraShaker.TriggerTempSlow(0.08f);
-						GameManager.Inst.CameraShaker.TriggerZoomShake(0.1f, 0.55f);
+						GameManager.Inst.CameraShaker.TriggerTempSlow(0.08f, 300f);
+
 					}
 					else
 					{
-						GameManager.Inst.CameraShaker.TriggerZoomShake(0.15f, 0.55f);
+						GameManager.Inst.CameraShaker.TriggerTempSlow(0.03f, 600f);
 					}
+
+					GameManager.Inst.CameraShaker.TriggerScreenShake(0.04f, 0.09f);
+					//GameManager.Inst.CameraShaker.TriggerDirectionalShake(0.1f, 0.08f, new Vector3(0.1f, 0.1f, 0));
 				
 				}
 			}
