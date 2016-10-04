@@ -281,7 +281,11 @@ public class MutantCharacter : Character
 
 		MyStatus.Health -= finalDamage;
 
-
+		if(MyStatus.Health <= 0)
+		{
+			MyStatus.Health = 0;
+			OnDeath(hitNormal);
+		}
 
 		return false;
 	}
@@ -321,7 +325,21 @@ public class MutantCharacter : Character
 				}
 
 			}
+			else
+			{
+				finalDamage = sharpDamage + bluntDamage;
+			}
+
+			MyStatus.Health -= finalDamage;
+
+			if(MyStatus.Health <= 0)
+			{
+				MyStatus.Health = 0;
+				OnDeath(hitNormal);
+			}
+
 		}
+
 
 		return false;
 	}
@@ -329,6 +347,13 @@ public class MutantCharacter : Character
 	public override bool SendCriticalDamage (float damage, float penetration, Vector3 hitNormal, Character attacker, Weapon attackerWeapon)
 	{
 		this.MyAnimator.SetTrigger("HitLeft");
+
+
+		if(MyStatus.Health <= 0)
+		{
+			MyStatus.Health = 0;
+			OnDeath(hitNormal);
+		}
 
 		return true;
 	}
@@ -361,6 +386,7 @@ public class MutantCharacter : Character
 		{
 			if(normal != Vector3.zero)
 			{
+				normal = new Vector3(normal.x, 0, normal.z);
 				float bodyAngle = Vector3.Angle(transform.right, normal * -1);
 
 				if(bodyAngle <= 90)
@@ -402,6 +428,64 @@ public class MutantCharacter : Character
 		ActionState = HumanActionStates.None;
 	}
 
+	public void OnDeath(Vector3 normal)
+	{
+		
+		MyAI.OnDeath();
+		Stealth.OnDeath();
+		float posture = UnityEngine.Random.Range(0.1f, 200)/200f;
+
+		int direction = 1;
+		if(normal != Vector3.zero)
+		{
+			normal = new Vector3(normal.x, 0, normal.z);
+
+			float angleRight = Vector3.Angle(normal, transform.right);
+			float angleForward = Vector3.Angle(normal, transform.forward);
+
+
+			if(angleRight < 60)
+			{
+				direction = 3;
+			}
+			else if(angleRight > 120)
+			{
+				direction = 2;
+			}
+			else
+			{
+				if(UnityEngine.Random.value > 0.5f)
+				{
+					direction = 0;
+				}
+				else
+				{
+					direction = 1;
+				}
+			}
+		}
+
+		this.MyAnimator.SetInteger("DeathDirection", direction);
+		this.MyAnimator.SetFloat("Blend", posture);
+		this.MyAnimator.SetBool("IsDead", true);
+
+		CurrentAnimState = new MutantAnimStateDeath(this);
+		IsBodyLocked = true;
+		MyAimIK.solver.SmoothDisable(9);
+		MyLeftHandIK.SmoothDisable(12);
+		MyHeadIK.SmoothDisable(9);
+		MyNavAgent.enabled = false;
+
+
+		CapsuleCollider collider = GetComponent<CapsuleCollider>();
+		collider.height = 0.5f;
+		collider.radius = 0.6f;
+		collider.center = new Vector3(0, 0, 0);
+		collider.isTrigger = true;
+
+
+	}
+
 
 	public void OnMeleeStrikeHalfWay()
 	{
@@ -436,6 +520,8 @@ public class MutantCharacter : Character
 	{
 		SendCommand(CharacterCommands.AnimationActionDone);
 	}
+
+
 
 
 

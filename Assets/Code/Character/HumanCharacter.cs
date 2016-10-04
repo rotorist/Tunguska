@@ -1055,11 +1055,23 @@ public class HumanCharacter : Character
 				}
 
 			}
+			else
+			{
+				finalDamage = sharpDamage + bluntDamage;
+			}
+
+			MyStatus.Health -= finalDamage;
 
 			if(MyAI.ControlType == AIControlType.Player)
 			{
 				GameManager.Inst.CameraShaker.TriggerScreenShake(0.1f, 0.1f);
 			}
+		}
+
+		if(MyStatus.Health <= 0)
+		{
+			MyStatus.Health = 0;
+			OnDeath();
 		}
 
 		return false;
