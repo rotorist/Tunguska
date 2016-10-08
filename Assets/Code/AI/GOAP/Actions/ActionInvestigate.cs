@@ -78,7 +78,7 @@ public class ActionInvestigate: GoapAction
 		//check if there's current target or personal threat
 		if(ParentCharacter.MyAI.BlackBoard.TargetEnemy != null || ParentCharacter.MyAI.BlackBoard.InvisibleEnemy != null || ParentCharacter.MyAI.BlackBoard.HighestPersonalThreat > 0)
 		{
-			//Debug.Log("Checking investigate context precondition, target enemy or personal threat present");
+			Debug.Log("Checking investigate context precondition, target enemy or personal threat present");
 			return false;
 		}
 
@@ -95,7 +95,7 @@ public class ActionInvestigate: GoapAction
 				ParentCharacter.MyAI.BlackBoard.PatrolLoc,
 				ParentCharacter.MyAI.BlackBoard.CombatRange))
 		{
-			//Debug.Log("disturbance is outside range. disturbance threat is " + ParentCharacter.MyAI.BlackBoard.HighestDisturbanceThreat);
+			Debug.Log("disturbance is outside range. disturbance threat is " + ParentCharacter.MyAI.BlackBoard.HighestDisturbanceThreat);
 			return false;
 		}
 

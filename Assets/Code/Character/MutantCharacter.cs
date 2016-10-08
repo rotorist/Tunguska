@@ -112,6 +112,12 @@ public class MutantCharacter : Character
 		this.MyAnimEventHandler = o.transform.GetComponent<AnimationEventHandler>();
 
 		this.MyReference.ParentCharacter = this;
+		this.MyReference.LiveCollider = transform.GetComponent<CapsuleCollider>();
+		if(this.MyReference.DeathCollider != null)
+		{
+			this.MyReference.DeathCollider.GetComponent<DeathCollider>().ParentCharacter = this;
+			this.MyReference.DeathCollider.enabled = false;
+		}
 
 		if(this.MyReference.FixedMeleeLeft != null)
 		{
@@ -475,14 +481,16 @@ public class MutantCharacter : Character
 		MyLeftHandIK.SmoothDisable(12);
 		MyHeadIK.SmoothDisable(9);
 		MyNavAgent.enabled = false;
+		MyReference.LiveCollider.enabled = false;
+		MyReference.DeathCollider.enabled = true;
 
-
+		/*
 		CapsuleCollider collider = GetComponent<CapsuleCollider>();
 		collider.height = 0.5f;
 		collider.radius = 0.6f;
 		collider.center = new Vector3(0, 0, 0);
 		collider.isTrigger = true;
-
+		*/
 
 	}
 

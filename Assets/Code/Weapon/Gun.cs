@@ -266,9 +266,12 @@ public class Gun : Weapon
 		{
 
 			float scatterValue = 0;
+			float muzzleVelocity = Barrel.MuzzleVelocity;
 			if(_projectilesPerShot > 1)
 			{
 				scatterValue = (1 - Barrel.Accuracy) / 10;
+				//muzzleVelocity = muzzleVelocity + UnityEngine.Random.Range(-1f, 1f) * 1;
+				//Debug.Log("shotgun velocity " + muzzleVelocity);
 			}
 			else 
 			{
@@ -296,7 +299,7 @@ public class Gun : Weapon
 			bullet.transform.position = _bulletOrigin.transform.position;
 			Vector3 bulletTarget = _bulletOrigin.transform.TransformPoint(_bulletOrigin.transform.localPosition + scatter);
 			bullet.transform.LookAt(bulletTarget);
-			bullet.Fire(bullet.transform.forward * Barrel.MuzzleVelocity + Attacker.MyNavAgent.velocity, this, Barrel.Range, 0.7f, Barrel.Impact, 0.1f);//TODO: critial hit chance will be covered in skills
+			bullet.Fire(bullet.transform.forward * muzzleVelocity + Attacker.MyNavAgent.velocity, this, Barrel.Range, 0.7f, Barrel.Impact, 0.1f);//TODO: critial hit chance will be covered in skills
 		}
 
 		StartCoroutine(LightsOut(_light));

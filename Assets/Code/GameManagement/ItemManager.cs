@@ -81,7 +81,7 @@ public class ItemManager
 		inventory1.Backpack.Add(new GridItemData(LoadItem("ammo12shot"), 4, 9, GridItemOrient.Landscape, 20));
 		inventory1.Backpack.Add(new GridItemData(LoadItem("huntingshotgun"), 0, 0, GridItemOrient.Landscape, 1));
 		inventory1.Backpack.Add(new GridItemData(LoadItem("svd"), 0, 3, GridItemOrient.Landscape, 1));
-		inventory1.Backpack.Add(new GridItemData(LoadItem("ak47"), 1, 7, GridItemOrient.Landscape,1));
+		inventory1.Backpack.Add(new GridItemData(LoadItem("ak47"), 1, 6, GridItemOrient.Landscape,1));
 
 		inventory1.RifleSlot = LoadItem("machete");
 		inventory1.ThrowSlot = LoadItem("pipegrenade");
@@ -318,7 +318,7 @@ public class ItemManager
 		item10.GridCols = 9;
 		item10.GridRows = 3;
 		item10.MaxStackSize = 1;
-		item10.Attributes.Add(new ItemAttribute("_Muzzle Velocity", 50f));
+		item10.Attributes.Add(new ItemAttribute("_Muzzle Velocity", 100f));
 		item10.Attributes.Add(new ItemAttribute("Impact", 5f));
 		item10.Attributes.Add(new ItemAttribute("Accuracy", 0.4f));
 		item10.Attributes.Add(new ItemAttribute("Range", 12f));

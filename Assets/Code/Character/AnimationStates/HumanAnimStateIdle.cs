@@ -84,8 +84,11 @@ public class HumanAnimStateIdle : HumanAnimStateBase
 				if(lookBodyAngle > _aimFreelookAngle)
 				{
 					_isRotatingBody = true;
+
 				}
 			}
+
+			this.ParentCharacter.MyAnimator.SetBool("IsRotating", _isRotatingBody);
 		}
 		else if((this.ParentCharacter.UpperBodyState == HumanUpperBodyStates.Idle  || this.ParentCharacter.UpperBodyState == HumanUpperBodyStates.HalfAim) && !this.ParentCharacter.IsBodyLocked)
 		{
@@ -143,7 +146,7 @@ public class HumanAnimStateIdle : HumanAnimStateBase
 		this.ParentCharacter.MyNavAgent.updateRotation = false;
 		this.ParentCharacter.MyHeadIK.Weight = 1;
 
-		_aimFreelookAngle = 45;
+		_aimFreelookAngle = 60;
 		_noAimFreelookAngle = 60;
 	}
 

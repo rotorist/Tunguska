@@ -159,6 +159,12 @@ public class HumanCharacter : Character
 		this.MyAnimEventHandler = o.transform.GetComponent<AnimationEventHandler>();
 
 		this.MyReference.ParentCharacter = this;
+		this.MyReference.LiveCollider = transform.GetComponent<CapsuleCollider>();
+		if(this.MyReference.DeathCollider != null)
+		{
+			this.MyReference.DeathCollider.GetComponent<DeathCollider>().ParentCharacter = this;
+			this.MyReference.DeathCollider.enabled = false;
+		}
 
 		this.MyAimIK = o.transform.GetComponent<AimIK>();
 		this.MyAimIK.solver.target = AimTarget;
@@ -249,11 +255,31 @@ public class HumanCharacter : Character
 
 		this.MyAnimEventHandler.OnMeleeBlockFinish -= OnMeleeBlockFinish;
 		this.MyAnimEventHandler.OnMeleeBlockFinish += OnMeleeBlockFinish;
+
+		this.MyAnimEventHandler.OnAnimationActionEnd -= OnAnimationActionEnd;
+		this.MyAnimEventHandler.OnAnimationActionEnd += OnAnimationActionEnd;
 	}
 		
 
 	public override void SendCommand(CharacterCommands command)
 	{
+
+		if(command == CharacterCommands.PlayAnimationAction)
+		{
+			CurrentAnimState = new HumanAnimStateAction(this);
+			IsBodyLocked = true;
+		}
+
+		if(command == CharacterCommands.AnimationActionDone)
+		{
+			Debug.Log("Action Done");
+			IsBodyLocked = false;
+			IsMoveLocked = false;
+		}
+
+
+
+
 		if(!IsBodyLocked && !IsMoveLocked)
 		{
 			CurrentAnimState.SendCommand(command);
@@ -335,7 +361,12 @@ public class HumanCharacter : Character
 
 			if(MyNavAgent.velocity.magnitude > 0f && lookDestAngle < 70)
 			{
-				MyAnimator.SetTrigger("ComboAttack");
+				//MyAnimator.SetTrigger("ComboAttack");
+				MyAI.BlackBoard.AnimationAction = AnimationActions.ComboAttack;
+				MyAI.BlackBoard.ActionMovementDest = transform.position + (this.LookTarget.position - transform.position).normalized * 2f;
+				MyAI.BlackBoard.ActionMovementSpeed = 1.5f;
+
+				SendCommand(CharacterCommands.PlayAnimationAction);
 				_isComboAttack = true;
 			}
 			else
@@ -345,7 +376,7 @@ public class HumanCharacter : Character
 			}
 			MyHeadIK.SmoothDisable(9);
 
-			Debug.Log("starting left attack");
+			Debug.Log("starting left attack ");
 		}
 
 		if(command == CharacterCommands.Block)
@@ -963,7 +994,7 @@ public class HumanCharacter : Character
 		//if(MyAI.ControlType != AIControlType.Player)
 		{
 
-			OnInjury();
+			OnInjury(hitNormal, false);
 			MyAI.Sensor.OnTakingDamage(attacker);
 
 			float finalDamage = damage;
@@ -1031,7 +1062,7 @@ public class HumanCharacter : Character
 		}
 		else
 		{
-			OnInjury();
+			OnInjury(hitNormal, UnityEngine.Random.value > 0.5f);
 			MyAI.Sensor.OnTakingDamage(attacker);
 			float finalDamage = 0;
 			if(this.Inventory.ArmorSlot != null)
@@ -1081,7 +1112,7 @@ public class HumanCharacter : Character
 	{
 		//if(MyAI.ControlType != AIControlType.Player)
 		{
-			OnInjury();
+			OnInjury(hitNormal, true);
 			MyAI.Sensor.OnTakingDamage(attacker);
 
 			float finalDamage = damage * 1.5f;
@@ -1525,25 +1556,36 @@ public class HumanCharacter : Character
 		}
 	}
 
-	public void OnInjury()
+	public void OnInjury(Vector3 normal, bool isHard)
 	{
 		if(ActionState != HumanActionStates.Twitch)
 		{
-			this.MyAnimator.SetTrigger("Injure");
-			if(MyAnimator.GetBool("IsAiming"))
+			if(!isHard)
 			{
-				MyAimIK.solver.IKPositionWeight = 0;
-				MyAimIK.solver.SmoothEnable(1);
-			}
+				this.MyAnimator.SetTrigger("Injure");
+				if(MyAnimator.GetBool("IsAiming"))
+				{
+					MyAimIK.solver.IKPositionWeight = 0;
+					MyAimIK.solver.SmoothEnable(1);
+				}
 
-			if(MyLeftHandIK.IsEnabled() && MyAnimator.GetInteger("WeaponType") == (int)WeaponAnimType.Longgun)
+				if(MyLeftHandIK.IsEnabled() && MyAnimator.GetInteger("WeaponType") == (int)WeaponAnimType.Longgun)
+				{
+					MyLeftHandIK.InstantDisable();
+					MyLeftHandIK.SmoothEnable(1);
+				}
+
+				MyHeadIK.Weight = 0;
+				MyHeadIK.SmoothEnable(1);
+			}
+			else
 			{
-				MyLeftHandIK.InstantDisable();
-				MyLeftHandIK.SmoothEnable(1);
-			}
+				MyAI.BlackBoard.AnimationAction = AnimationActions.KnockBack;
+				MyAI.BlackBoard.ActionMovementDest = transform.position - transform.forward * 1;
+				MyAI.BlackBoard.ActionMovementSpeed = 1.5f;
 
-			MyHeadIK.Weight = 0;
-			MyHeadIK.SmoothEnable(1);
+				SendCommand(CharacterCommands.PlayAnimationAction);
+			}
 		}
 
 		ActionState = HumanActionStates.Twitch;
@@ -1570,13 +1612,16 @@ public class HumanCharacter : Character
 		MyHeadIK.SmoothDisable(9);
 		MyNavAgent.enabled = false;
 		MyReference.Flashlight.Toggle(false);
+		MyReference.LiveCollider.enabled = false;
+		MyReference.DeathCollider.enabled = true;
 
+		/*
 		CapsuleCollider collider = GetComponent<CapsuleCollider>();
 		collider.height = 0.5f;
 		collider.radius = 0.6f;
 		collider.center = new Vector3(0, 0, 0);
 		collider.isTrigger = true;
-
+		*/
 
 	}
 
@@ -1694,7 +1739,7 @@ public class HumanCharacter : Character
 		_meleeStrikeStage = 1;
 		MyReference.CurrentWeapon.GetComponent<MeleeWeapon>().SwingStart();
 
-		Debug.Log("on strike half way " + _meleeStrikeStage);
+		Debug.Log("on strike half way ");
 	}
 
 	public void OnMeleeComboStageTwo()
@@ -1702,7 +1747,8 @@ public class HumanCharacter : Character
 		ActionState = HumanActionStates.Melee;
 		_meleeStrikeStage = 1;
 		MyReference.CurrentWeapon.GetComponent<MeleeWeapon>().SwingStop();
-		IsMoveLocked = true;
+		OnAnimationActionEnd();
+		//IsMoveLocked = true;
 		_isComboAttack = false;
 	}
 
@@ -1725,6 +1771,7 @@ public class HumanCharacter : Character
 		_meleeStrikeStage = 0;
 		IsMoveLocked = false;
 		_isComboAttack = false;
+
 		MyHeadIK.SmoothEnable(9);
 		MyReference.CurrentWeapon.GetComponent<MeleeWeapon>().SwingStop();
 		Debug.Log("strike right finished");
@@ -1738,7 +1785,10 @@ public class HumanCharacter : Character
 		IsMoveLocked = false;
 	}
 
-
+	public void OnAnimationActionEnd()
+	{
+		SendCommand(CharacterCommands.AnimationActionDone);
+	}
 
 
 

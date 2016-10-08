@@ -24,4 +24,6 @@ public class CharacterReference : MonoBehaviour
 	public FlashLight Flashlight;
 	public Weapon FixedMeleeLeft;
 	public Weapon FixedMeleeRight;
+	public BoxCollider DeathCollider;
+	public CapsuleCollider LiveCollider;
 }

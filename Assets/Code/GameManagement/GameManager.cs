@@ -98,9 +98,9 @@ public class GameManager : MonoBehaviour
 		mutant1.Initialize();
 		mutant1.MyStatus.MaxHealth = 200;
 		mutant1.MyStatus.Health = 200;
-		mutant1.MyAI.BlackBoard.PatrolLoc = new Vector3(70, 0, -54);
-		mutant1.MyAI.BlackBoard.PatrolRange = new Vector3(10, 5, 10);
-		mutant1.MyAI.BlackBoard.CombatRange = new Vector3(20, 5, 20);
+		mutant1.MyAI.BlackBoard.PatrolLoc = new Vector3(60, 0, -11);
+		mutant1.MyAI.BlackBoard.PatrolRange = new Vector3(30, 10, 10);
+		mutant1.MyAI.BlackBoard.CombatRange = new Vector3(40, 20, 20);
 		mutant1.MyAI.BlackBoard.HasPatrolInfo = true;
 
 

@@ -24,6 +24,7 @@ public class CharacterStatus
 
 	public float EyeSight;
 
+	public int Intelligence; //0, 1, 2
 
 
 	public void Initialize()
@@ -44,13 +45,13 @@ public class CharacterStatus
 
 		EyeSight = 1.5f;
 
-
+		Intelligence = 2;
 	}
 
 	public void ResetSpeedModifier()
 	{
 		WalkSpeedModifier = 0.8f;
-		RunSpeedModifier = 0.8f;
+		RunSpeedModifier = 1.1f;
 		SprintSpeedModifier = 1.1f;
 		StrafeSpeedModifier = 1.2f;
 	}

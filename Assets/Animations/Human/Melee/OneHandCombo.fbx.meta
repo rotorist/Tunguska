@@ -126,7 +126,7 @@ ModelImporter:
       name: OnehandCombo
       takeName: mixamo.com
       firstFrame: 25
-      lastFrame: 80
+      lastFrame: 68
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -154,7 +154,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.62116987
+      - time: 0.7373778
         functionName: TriggerOnComboStageTwo
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: e29b1cf06baaa2544adc78bd2c1e66d0,
@@ -162,7 +162,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.8694775
+      - time: 0.92452335
         functionName: TriggerOnStrikeRightFinish
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: e29b1cf06baaa2544adc78bd2c1e66d0,

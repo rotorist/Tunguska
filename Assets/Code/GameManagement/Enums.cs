@@ -198,6 +198,7 @@ public enum ParseStates
 
 public enum AnimationActions
 {
+	ComboAttack,
 	KnockBack,
 	Sit,
 
