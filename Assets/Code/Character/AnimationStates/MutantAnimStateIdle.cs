@@ -46,22 +46,7 @@ public class MutantAnimStateIdle : MutantAnimStateBase
 		}
 
 
-		bool isAlert = ParentCharacter.IsAlert();
 
-		if(isAlert)
-		{
-			if(ParentCharacter.MyAnimator.GetInteger("AlertLevel") <= 0)
-			{
-				ParentCharacter.MyAnimator.SetInteger("AlertLevel", 1);
-			}
-		}
-		else
-		{
-			if(ParentCharacter.MyAnimator.GetInteger("AlertLevel") > 0)
-			{
-				ParentCharacter.MyAnimator.SetInteger("AlertLevel", 0);
-			}
-		}
 
 
 
@@ -98,6 +83,8 @@ public class MutantAnimStateIdle : MutantAnimStateBase
 					_isRotatingBody = true;
 				}
 			}
+
+			this.ParentCharacter.MyAnimator.SetBool("IsRotating", _isRotatingBody);
 		}
 	}
 
@@ -112,6 +99,7 @@ public class MutantAnimStateIdle : MutantAnimStateBase
 	{
 		Debug.Log("Initializing Stand Idle");
 		_vSpeed = this.ParentCharacter.MyAnimator.GetFloat("VSpeed");
+		this.ParentCharacter.MyAnimator.SetFloat("Blend", UnityEngine.Random.value);
 		this.ParentCharacter.Destination = this.ParentCharacter.transform.position;
 		this.ParentCharacter.MyNavAgent.Stop();
 		this.ParentCharacter.MyNavAgent.ResetPath();

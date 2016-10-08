@@ -133,16 +133,12 @@ public class ActionMutantInvestigate: GoapAction
 			Debug.Log("Investigating... is in area? " + isInArea + ", disturbance threat " + ParentCharacter.MyAI.BlackBoard.HighestDisturbanceThreat);
 			/** threats
 			 * 0 - look at direction
-			 * 1 - weapon holstered, walk to check
-			 * 2 - weapon drawn, flashlight on, walk to check
-			 * 3 - weapon aim, flashlight on, walk to check
-			 * 4 - weapon drawn, flashlight on, run to check
+			 * 1 - not alarmed, walk to check
+			 * 2 - alarmed, run to check
 			 * 
 			 * 0 - when threat < 0.3 or when disturb is outside combat range
-			 * 1 - when threat > 0.3 and < 0.5 and disturb is inside combat range or inside immediate distance
-			 * 2 - when threat > 0.5 and < 0.7 and disturb is inside combat range or inside immediate distance
-			 * 3 - when threat > 0.7 and < 0.9 and disturb is inside combat range or inside immediate distance
-			 * 4 - when threat > 0.9
+			 * 1 - when threat > 0.3 and < 0.6 and disturb is inside combat range or inside immediate distance
+			 * 2 - when threat > 0.6
 			**/
 
 			/*
@@ -157,12 +153,12 @@ public class ActionMutantInvestigate: GoapAction
 			float disturbThreat = ParentCharacter.MyAI.BlackBoard.HighestDisturbanceThreat;
 			Vector3 disturbDist = ParentCharacter.MyAI.BlackBoard.HighestDisturbanceLoc - ParentCharacter.transform.position;
 			bool isImmediateDistance = disturbDist.magnitude < 15;
-			if(disturbThreat > 0.9f)
+			if(disturbThreat > 0.6f)
 			{
 				Debug.Log("Investigating: run to check " + ParentCharacter.name);
 				//weapon drawn, flashlight on, run to check
 				_willInvestigate = true;
-				ParentCharacter.MyAI.BlackBoard.GuardLevel = 3;
+				ParentCharacter.MyAI.BlackBoard.GuardLevel = 2;
 				ParentCharacter.SendCommand(CharacterCommands.SetAlert);
 				ParentCharacter.CurrentStance = HumanStances.Run;
 
@@ -177,37 +173,13 @@ public class ActionMutantInvestigate: GoapAction
 			{
 				if((isInArea || isImmediateDistance) && disturbThreat >= 0.3f)
 				{
-					if(disturbThreat < 0.5f)
+					if(disturbThreat < 0.6f)
 					{
 						//weapon holstered, walk to check
 						ParentCharacter.SendCommand(CharacterCommands.SetAlert);
 						_willInvestigate = true;
 						ParentCharacter.CurrentStance = HumanStances.Walk;
 						ParentCharacter.SendCommand(CharacterCommands.StopAim);
-					}
-					else if(disturbDist.magnitude < 0.7f)
-					{
-						//weapon drawn, flashlight on, walk to check
-						ParentCharacter.MyAI.BlackBoard.GuardLevel = 2;
-						ParentCharacter.SendCommand(CharacterCommands.SetAlert);
-						_willInvestigate = true;
-						ParentCharacter.CurrentStance = HumanStances.Walk;
-
-
-						ParentCharacter.SendCommand(CharacterCommands.StopAim);
-
-					}
-					else
-					{
-						Debug.Log("Investigating: aim and walk");
-						//weapon aim, flashlight on, walk to check
-						ParentCharacter.MyAI.BlackBoard.GuardLevel = 2;
-						ParentCharacter.SendCommand(CharacterCommands.SetAlert);
-						_willInvestigate = true;
-						ParentCharacter.CurrentStance = HumanStances.Walk;
-
-						ParentCharacter.SendCommand(CharacterCommands.Aim);
-
 					}
 
 

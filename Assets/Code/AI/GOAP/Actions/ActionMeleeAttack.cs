@@ -51,10 +51,6 @@ public class ActionMeleeAttack : GoapAction
 	{
 		Debug.Log("Stop executing melee attack " + ParentCharacter.name);
 		_executionStopped = true;
-		if(ParentCharacter.MyAnimator.GetInteger("AlertLevel") >= 2)
-		{
-			ParentCharacter.MyAnimator.SetInteger("AlertLevel", 1);
-		}
 
 		ParentCharacter.MyEventHandler.OnOneSecondTimer -= UpdateAction;
 		ParentCharacter.MyEventHandler.OnPerFrameTimer -= PerFrameUpdate;
@@ -188,11 +184,7 @@ public class ActionMeleeAttack : GoapAction
 						_attackWaitTimeout = UnityEngine.Random.Range(1f, 3f);
 					}
 				}
-
-				if(ParentCharacter.MyAnimator.GetInteger("AlertLevel") >= 2)
-				{
-					ParentCharacter.MyAnimator.SetInteger("AlertLevel", 1);
-				}
+					
 			}
 			else
 			{
@@ -202,10 +194,6 @@ public class ActionMeleeAttack : GoapAction
 					ParentCharacter.Destination = ParentCharacter.MyAI.BlackBoard.NavTarget;
 					ParentCharacter.CurrentStance = HumanStances.Run;
 
-					if(ParentCharacter.MyAnimator.GetInteger("AlertLevel") >= 2)
-					{
-						ParentCharacter.MyAnimator.SetInteger("AlertLevel", 1);
-					}
 				}
 				else if(dist > 1.6f)
 				{
@@ -213,17 +201,11 @@ public class ActionMeleeAttack : GoapAction
 					ParentCharacter.Destination = ParentCharacter.MyAI.BlackBoard.NavTarget;
 					ParentCharacter.CurrentStance = HumanStances.Walk;
 
-					if(ParentCharacter.MyAnimator.GetInteger("AlertLevel") >= 2)
-					{
-						ParentCharacter.MyAnimator.SetInteger("AlertLevel", 1);
-					}
+
 				}
 				else
 				{
-					if(ParentCharacter.MyAnimator.GetInteger("AlertLevel") < 2)
-					{
-						ParentCharacter.MyAnimator.SetInteger("AlertLevel", 2);
-					}
+
 
 					ParentCharacter.SendCommand(CharacterCommands.Idle);
 					if(_attackTimer >= _attackWaitTimeout)

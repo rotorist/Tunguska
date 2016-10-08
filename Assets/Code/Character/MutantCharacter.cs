@@ -45,6 +45,23 @@ public class MutantCharacter : Character
 
 			MyAI.AlwaysPerFrameUpdate();
 		}
+
+		bool isAlert = IsAlert();
+
+		if(isAlert)
+		{
+			if(MyAnimator.GetInteger("AlertLevel") <= 1)
+			{
+				MyAnimator.SetInteger("AlertLevel", 2);
+			}
+		}
+		else
+		{
+			if(MyAnimator.GetInteger("AlertLevel") > 1)
+			{
+				MyAnimator.SetInteger("AlertLevel", 1);
+			}
+		}
 	}
 
 	public void Initialize()
@@ -377,6 +394,7 @@ public class MutantCharacter : Character
 
 	public bool IsAlert()
 	{
+		//Debug.Log(MyAI.BlackBoard.GuardLevel);
 		if(MyAI.BlackBoard.GuardLevel > 1)
 		{
 			return true;
