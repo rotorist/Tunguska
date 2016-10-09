@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 public class AISquad
 {
-	public List<HumanCharacter> Members;
+	public List<Character> Members;
 	public Household Household;
 
 	public AISquad()
 	{
-		Members = new List<HumanCharacter>();
+		Members = new List<Character>();
 
 		Household = GameObject.Find("Household1").GetComponent<Household>();
 	}
@@ -75,7 +75,7 @@ public class AISquad
 
 	public bool IsAnyOneInvestigating(Vector3 location)
 	{
-		foreach(HumanCharacter member in Members)
+		foreach(Character member in Members)
 		{
 			GoapAction currentAction = member.MyAI.GetCurrentAction();
 			if(currentAction != null && currentAction.Name == "ActionInvestigate")
@@ -107,7 +107,7 @@ public class AISquad
 
 	public bool IsPatrolNodeTaken(int node)
 	{
-		foreach(HumanCharacter member in Members)
+		foreach(Character member in Members)
 		{
 			if(member.MyAI.BlackBoard.PatrolNodeIndex == node)
 			{
@@ -120,7 +120,7 @@ public class AISquad
 
 	public void SetSquadAlertLevel(object level)
 	{
-		foreach(HumanCharacter member in Members)
+		foreach(Character member in Members)
 		{
 			member.MyAI.BlackBoard.GuardLevel = (int)level;
 		}
@@ -129,7 +129,7 @@ public class AISquad
 
 	public void BroadcastMemoryFact(WorkingMemoryFact fact)
 	{
-		foreach(HumanCharacter member in Members)
+		foreach(Character member in Members)
 		{
 			member.MyAI.WorkingMemory.AddFact(fact);
 		}

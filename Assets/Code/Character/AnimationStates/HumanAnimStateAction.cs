@@ -25,7 +25,6 @@ public class HumanAnimStateAction : HumanAnimStateBase
 	{
 		if(command == CharacterCommands.AnimationActionDone)
 		{
-
 			UpdateState(HumanBodyStates.StandIdle);
 
 		}

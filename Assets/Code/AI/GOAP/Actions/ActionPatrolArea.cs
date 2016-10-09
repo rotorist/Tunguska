@@ -95,7 +95,7 @@ public class ActionPatrolArea : GoapAction
 
 		if(ParentCharacter.MyAI.BlackBoard.IsNavTargetSet)
 		{
-			//CsDebug.Inst.CharLog(ParentCharacter, "Patrol area update action nav target is set. is patrolling " + _isPatrolling);
+			CsDebug.Inst.CharLog(ParentCharacter, "Patrol area update action nav target is set. is patrolling " + _isPatrolling);
 			//check if is near patrol destination; if so set isNavTargetSet to false
 			if(Vector3.Distance(ParentCharacter.transform.position, ParentCharacter.MyAI.BlackBoard.NavTarget) <= 2)
 			{
@@ -112,10 +112,20 @@ public class ActionPatrolArea : GoapAction
 				}
 				_isPatrolling = true;
 			}
+			else if(_isPatrolling)
+			{
+				if(ParentCharacter.CurrentAnimStateName == "Idle")
+				{
+					
+					ParentCharacter.Destination = ParentCharacter.MyAI.BlackBoard.NavTarget;
+					((HumanCharacter)ParentCharacter).CurrentStance = HumanStances.Walk;
+					ParentCharacter.SendCommand(CharacterCommands.GoToPosition);
+				}
+			}
 		}
 		else
 		{
-			//CsDebug.Inst.CharLog(ParentCharacter, "Patrol area update action nav target is not set");
+			CsDebug.Inst.CharLog(ParentCharacter, "Patrol area update action nav target is not set");
 			Vector3 result;
 			ParentCharacter.MyAI.BlackBoard.IsNavTargetSet = SelectPatrolDestination(out result);
 			if(ParentCharacter.MyAI.BlackBoard.IsNavTargetSet)

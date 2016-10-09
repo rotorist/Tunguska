@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class AISensor 
 {
@@ -236,7 +237,9 @@ public class AISensor
 		float range = 60;
 		GameObject myEyes = _parentCharacter.MyReference.Eyes;
 
-		foreach(HumanCharacter c in GameManager.Inst.NPCManager.HumansInScene)
+
+
+		foreach(Character c in GameManager.Inst.NPCManager.AllCharacters)
 		{
 			if(c == _parentCharacter || c.Faction == _parentCharacter.Faction)
 			{
@@ -282,7 +285,7 @@ public class AISensor
 
 			if(distance <= range && Vector3.Angle(myEyes.transform.forward, (c.transform.position - _parentCharacter.transform.position)) <= fov / 2)
 			{
-
+				
 				//now do a raycast check if this character is behind walls. 
 				RaycastHit hit;
 				float colliderHeight = c.GetComponent<CapsuleCollider>().height;
@@ -291,12 +294,13 @@ public class AISensor
 
 				if(Physics.Raycast(ray, out hit))
 				{
-					//Debug.Log("raycast hit in sensor: " + hit.collider.name);
-					HumanCharacter hitCharacter = hit.collider.GetComponent<HumanCharacter>();
+					//Debug.Log(_parentCharacter.name + " raycast hit in sensor: " + hit.collider.name);
+					Character hitCharacter = hit.collider.GetComponent<Character>();
 					if(hitCharacter != null && hitCharacter == c)
 					{
 						if(c.MyAI.ControlType != AIControlType.Player)
 						{
+							
 							isSeen = true;
 							c.Stealth.SetDetectedVisibilityBoost(5);
 						}
@@ -439,7 +443,7 @@ public class AISensor
 	private void DetectDisturbance()
 	{
 		//go through all characters and find enemies within hearing range
-		foreach(HumanCharacter c in GameManager.Inst.NPCManager.HumansInScene)
+		foreach(Character c in GameManager.Inst.NPCManager.AllCharacters)
 		{
 			if(c == _parentCharacter || c.Faction == _parentCharacter.Faction || c.MyStatus.Health <= 0)
 			{
@@ -513,7 +517,7 @@ public class AISensor
 			return;
 		}
 
-		foreach(HumanCharacter c in GameManager.Inst.NPCManager.HumansInScene)
+		foreach(Character c in GameManager.Inst.NPCManager.AllCharacters)
 		{
 			if(c.MyStatus.Health > 0)
 			{
@@ -543,7 +547,7 @@ public class AISensor
 				if(Physics.Raycast(ray, out hit))
 				{
 					//Debug.Log("raycast hit in sensor for corpse: " + hit.collider.name);
-					HumanCharacter hitCharacter = hit.collider.GetComponent<HumanCharacter>();
+					Character hitCharacter = hit.collider.GetComponent<Character>();
 					if(hitCharacter != null && hitCharacter == c)
 					{
 						Debug.Log("Found new corpse! " + _parentCharacter.name);

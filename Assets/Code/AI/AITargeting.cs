@@ -44,7 +44,7 @@ public class AITargeting
 		{
 			//is aiming
 
-			Vector3 lookPos = currentTarget.GetComponent<HumanCharacter>().MyReference.Eyes.transform.position;
+			Vector3 lookPos = currentTarget.GetComponent<Character>().MyReference.Eyes.transform.position;
 			_parentCharacter.LookTarget.transform.position = Vector3.Lerp(_parentCharacter.LookTarget.transform.position, lookPos, 8 * Time.deltaTime);
 
 			Vector3 gunPos = _parentCharacter.MyReference.CurrentWeapon.transform.position;

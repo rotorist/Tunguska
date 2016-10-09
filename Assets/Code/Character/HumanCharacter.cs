@@ -1779,7 +1779,7 @@ public class HumanCharacter : Character
 
 	public void OnMeleeBlockFinish()
 	{
-		this.MyLeftHandIK.InstantDisable();
+		this.MyLeftHandIK.SmoothDisable(6);
 		ActionState = HumanActionStates.None;
 		_meleeStrikeStage = 0;
 		IsMoveLocked = false;

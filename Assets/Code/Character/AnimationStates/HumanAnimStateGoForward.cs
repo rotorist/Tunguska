@@ -111,6 +111,7 @@ public class HumanAnimStateGoForward : HumanAnimStateBase
 	private void Initialize()
 	{
 		Debug.Log("initializing walk forward " + "Dest " + this.ParentCharacter.Destination);
+		this.ParentCharacter.CurrentAnimStateName = "Go Forward";
 		this.ParentCharacter.MyAnimator.SetFloat("VSpeed", 0);
 		this.ParentCharacter.MyAnimator.SetBool("IsSneaking", false);
 		this.ParentCharacter.MyHeadIK.Weight = 0.75f;

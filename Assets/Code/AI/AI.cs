@@ -100,8 +100,8 @@ public class AI : MonoBehaviour
 
 	public bool IsCharacterInParty(Character c)
 	{
-		HumanCharacter character = c.GetComponent<HumanCharacter>();
-		if(character == null)
+		
+		if(c == null)
 		{
 			return false;
 		}
@@ -111,7 +111,7 @@ public class AI : MonoBehaviour
 			return true;
 		}
 
-		if(Squad != null && Squad.Members.Contains(character))
+		if(Squad != null && Squad.Members.Contains(c))
 		{
 			return true;
 		}
@@ -131,24 +131,24 @@ public class AI : MonoBehaviour
 			return;
 		}
 
-		//now send a disturbance to all human characters in squad
-		List<HumanCharacter> humans = Squad.Members;
-		foreach(HumanCharacter human in humans)
+		//now send a disturbance to all  characters in squad
+
+		foreach(Character c in Squad.Members)
 		{
-			if(human == _parentCharacter)
+			if(c == _parentCharacter)
 			{
 				continue;
 			}
 
 			if(target == null)
 			{
-				human.MyAI.Sensor.OnReceiveDisturbance(1f, this, transform.position, _parentCharacter);
+				c.MyAI.Sensor.OnReceiveDisturbance(1f, this, transform.position, _parentCharacter);
 			}
 			else
 			{
-				human.MyAI.BlackBoard.TargetEnemy = target;
-				human.MyAI.BlackBoard.TargetEnemyThreat = 1;
-				human.MyAI.BlackBoard.GuardLevel = 2;
+				c.MyAI.BlackBoard.TargetEnemy = target;
+				c.MyAI.BlackBoard.TargetEnemyThreat = 1;
+				c.MyAI.BlackBoard.GuardLevel = 2;
 			}
 		}
 	}

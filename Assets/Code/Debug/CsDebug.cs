@@ -38,7 +38,7 @@ public class CsDebug : MonoBehaviour
 			}
 		}
 
-		DebugChar = GameObject.Find("MutantCharacter").GetComponent<Character>();
+		DebugChar = GameObject.Find("HumanCharacter4").GetComponent<Character>();
 
 		_bufferSize = 300000;
 		_bufferedLog = "";

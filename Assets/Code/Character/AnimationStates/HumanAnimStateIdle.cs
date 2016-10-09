@@ -139,12 +139,14 @@ public class HumanAnimStateIdle : HumanAnimStateBase
 	{
 		Debug.Log("Initializing Stand Idle");
 		_vSpeed = this.ParentCharacter.MyAnimator.GetFloat("VSpeed");
+		this.ParentCharacter.MyAnimator.SetFloat("Blend", UnityEngine.Random.value);
 		this.ParentCharacter.MyAnimator.SetBool("IsSneaking", false);
 		this.ParentCharacter.Destination = this.ParentCharacter.transform.position;
 		this.ParentCharacter.MyNavAgent.Stop();
 		this.ParentCharacter.MyNavAgent.ResetPath();
 		this.ParentCharacter.MyNavAgent.updateRotation = false;
 		this.ParentCharacter.MyHeadIK.Weight = 1;
+		this.ParentCharacter.CurrentAnimStateName = "Idle";
 
 		_aimFreelookAngle = 60;
 		_noAimFreelookAngle = 60;
