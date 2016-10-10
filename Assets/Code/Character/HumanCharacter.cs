@@ -406,6 +406,15 @@ public class HumanCharacter : Character
 		{
 			if(ActionState == HumanActionStates.None)
 			{
+				//kick direction
+				Vector3 lookDir = LookTarget.position - transform.position;
+				lookDir = new Vector3(lookDir.x, 0, lookDir.z);
+				transform.rotation = Quaternion.LookRotation(lookDir);
+
+				if(MyReference.RightFoot != null)
+				{
+					MyReference.RightFoot.SetActive(true);
+				}
 				ActionState = HumanActionStates.Melee;
 				MyAnimator.SetTrigger("Kick");
 				IsBodyLocked = true;
@@ -1080,7 +1089,8 @@ public class HumanCharacter : Character
 				GameManager.Inst.CameraShaker.TriggerScreenShake(0.07f, 0.09f);
 			}
 
-			if(_blockTimer < 0.5f)
+			Debug.Log("block timer " + _blockTimer);
+			if(_blockTimer < 0.25f)
 			{
 				//face attacker
 				Vector3 lookDir = attacker.transform.position - transform.position;
@@ -1088,6 +1098,10 @@ public class HumanCharacter : Character
 				transform.rotation = Quaternion.LookRotation(lookDir);
 
 				ActionState = HumanActionStates.Melee;
+				if(MyReference.RightFoot != null)
+				{
+					MyReference.RightFoot.SetActive(true);
+				}
 				MyAnimator.SetTrigger("Kick");
 				IsBodyLocked = true;
 			}
@@ -1771,7 +1785,11 @@ public class HumanCharacter : Character
 	{
 		ActionState = HumanActionStates.Melee;
 		_meleeStrikeStage = 1;
-		MyReference.CurrentWeapon.GetComponent<MeleeWeapon>().SwingStart();
+		if(MyReference.CurrentWeapon != null)
+		{
+			MyReference.CurrentWeapon.GetComponent<MeleeWeapon>().SwingStart();
+		}
+			
 
 		Debug.Log("on strike half way ");
 	}
@@ -1812,6 +1830,12 @@ public class HumanCharacter : Character
 		{
 			MyReference.CurrentWeapon.GetComponent<MeleeWeapon>().SwingStop();
 		}
+
+		if(MyReference.RightFoot != null)
+		{
+			MyReference.RightFoot.SetActive(false);
+		}
+
 		Debug.Log("strike right finished");
 	}
 
