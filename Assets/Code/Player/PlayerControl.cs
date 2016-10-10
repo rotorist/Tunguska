@@ -57,7 +57,7 @@ public class PlayerControl
 		InputEventHandler.OnWeaponReleaseTrigger += this.OnWeaponReleaseTrigger;
 		InputEventHandler.OnRMBDown += this.OnRMBDown;
 		InputEventHandler.OnRMBUp += this.OnRMBUp;
-		InputEventHandler.OnLRMBDown += this.OnLRMBDown;
+		InputEventHandler.OnMMBDown += this.OnMMBDown;
 		InputEventHandler.OnKick += this.OnKick;
 
 		InputEventHandler.OnPlayerMoveLeft += this.OnPlayerMoveLeft;
@@ -743,7 +743,7 @@ public class PlayerControl
 	}
 
 
-	public void OnLRMBDown()
+	public void OnMMBDown()
 	{
 		WeaponAnimType currentWeapon = SelectedPC.GetCurrentAnimWeapon();
 
@@ -752,10 +752,10 @@ public class PlayerControl
 
 			SelectedPC.SendCommand(CharacterCommands.Block);
 
-
-
 		}
 	}
+
+
 
 	public void OnWeaponPullTrigger()
 	{
@@ -840,7 +840,7 @@ public class PlayerControl
 
 	public void OnKick()
 	{
-		SelectedPC.GetComponent<HumanCharacter>().SendCommand(CharacterCommands.Knock);
+		SelectedPC.GetComponent<HumanCharacter>().SendCommand(CharacterCommands.Kick);
 	}
 
 	public void OnToggleSneaking()

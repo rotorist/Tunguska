@@ -80,7 +80,7 @@ public enum CharacterCommands
 	SwitchWeapon2,
 	SwitchThrown,
 	SwitchTool,
-	Knock,
+	Kick,
 	Throw,
 	LowThrow,
 	ThrowGrenade,

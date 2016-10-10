@@ -313,7 +313,7 @@ public class MutantCharacter : Character
 		return false;
 	}
 
-	public override bool SendMeleeDamage (float sharpDamage, float bluntDamage, Vector3 hitNormal, Character attacker)
+	public override bool SendMeleeDamage (float sharpDamage, float bluntDamage, Vector3 hitNormal, Character attacker, float knockBackChance)
 	{
 		MyEventHandler.TriggerOnTakingHit();
 		float attackerAngle = Vector3.Angle(transform.forward, transform.position - attacker.transform.position);
@@ -324,7 +324,7 @@ public class MutantCharacter : Character
 		}
 		else
 		{
-			OnInjury(hitNormal, UnityEngine.Random.value > 0.5f);
+			OnInjury(hitNormal, UnityEngine.Random.value >= knockBackChance);
 			MyAI.Sensor.OnTakingDamage(attacker);
 			float finalDamage = 0;
 			if(this.Inventory.ArmorSlot != null)
@@ -404,9 +404,9 @@ public class MutantCharacter : Character
 	}
 
 
-	public void OnInjury(Vector3 normal, bool isHard)
+	public void OnInjury(Vector3 normal, bool isKnockBack)
 	{
-		if(!isHard)
+		if(!isKnockBack)
 		{
 			if(normal != Vector3.zero)
 			{

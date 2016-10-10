@@ -41,7 +41,7 @@ public class InputEventHandler
 	public static event KeyEventDelegate OnRMBDown;
 	public static event KeyEventDelegate OnRMBUp;
 	public static event KeyEventDelegate OnKick;
-	public static event KeyEventDelegate OnLRMBDown;
+	public static event KeyEventDelegate OnMMBDown;
 
 	public static event KeyEventDelegate OnCameraSwitchMode;
 
@@ -377,12 +377,13 @@ public class InputEventHandler
 		{
 			if(Input.GetKeyDown(KeyCode.Mouse2))
 			{
-				if(OnLRMBDown != null)
+				if(OnMMBDown != null)
 				{
-					OnLRMBDown();
+					OnMMBDown();
 					return;
 				}
 			}
+				
 
 			if(Input.GetKeyDown(KeyCode.Mouse0))
 			{

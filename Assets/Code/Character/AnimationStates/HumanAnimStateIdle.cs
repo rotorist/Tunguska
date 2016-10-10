@@ -88,7 +88,7 @@ public class HumanAnimStateIdle : HumanAnimStateBase
 				}
 			}
 
-			this.ParentCharacter.MyAnimator.SetBool("IsRotating", _isRotatingBody);
+
 		}
 		else if((this.ParentCharacter.UpperBodyState == HumanUpperBodyStates.Idle  || this.ParentCharacter.UpperBodyState == HumanUpperBodyStates.HalfAim) && !this.ParentCharacter.IsBodyLocked)
 		{
@@ -126,6 +126,8 @@ public class HumanAnimStateIdle : HumanAnimStateBase
 				}
 			}
 		}
+
+		this.ParentCharacter.MyAnimator.SetBool("IsRotating", _isRotatingBody);
 	}
 
 	public override bool IsRotatingBody ()

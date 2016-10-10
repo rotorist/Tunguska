@@ -46,6 +46,7 @@ public class HumanCharacter : Character
 	private int _meleeStrikeStage;//0, 1, 2
 	private bool _isComboAttack;
 	private bool _layerDState;//false = decreasing; true = increasing
+	private float _blockTimer;
 
 
 	void Update()
@@ -64,6 +65,12 @@ public class HumanCharacter : Character
 			UpdateFatigue();
 
 			MyAI.AlwaysPerFrameUpdate();
+
+		}
+
+		if(ActionState == HumanActionStates.Block)
+		{
+			_blockTimer += Time.deltaTime;
 		}
 	}
 
@@ -164,6 +171,11 @@ public class HumanCharacter : Character
 		{
 			this.MyReference.DeathCollider.GetComponent<DeathCollider>().ParentCharacter = this;
 			this.MyReference.DeathCollider.enabled = false;
+		}
+
+		if(this.MyReference.RightFoot != null)
+		{
+			this.MyReference.RightFoot.Attacker = this;
 		}
 
 		this.MyAimIK = o.transform.GetComponent<AimIK>();
@@ -387,7 +399,17 @@ public class HumanCharacter : Character
 			_meleeStrikeStage = 0;
 			MyAnimator.SetTrigger("Block");
 			IsMoveLocked = true;
+			_blockTimer = 0;
+		}
 
+		if(command == CharacterCommands.Kick)
+		{
+			if(ActionState == HumanActionStates.None)
+			{
+				ActionState = HumanActionStates.Melee;
+				MyAnimator.SetTrigger("Kick");
+				IsBodyLocked = true;
+			}
 		}
 
 
@@ -1044,7 +1066,7 @@ public class HumanCharacter : Character
 		return false;
 	}
 
-	public override bool SendMeleeDamage (float sharpDamage, float bluntDamage, Vector3 hitNormal, Character attacker)
+	public override bool SendMeleeDamage (float sharpDamage, float bluntDamage, Vector3 hitNormal, Character attacker, float knockBackChance)
 	{
 		float attackerAngle = Vector3.Angle(transform.forward, transform.position - attacker.transform.position);
 		if(ActionState == HumanActionStates.Block && attackerAngle > 135)
@@ -1058,11 +1080,23 @@ public class HumanCharacter : Character
 				GameManager.Inst.CameraShaker.TriggerScreenShake(0.07f, 0.09f);
 			}
 
+			if(_blockTimer < 0.5f)
+			{
+				//face attacker
+				Vector3 lookDir = attacker.transform.position - transform.position;
+				lookDir = new Vector3(lookDir.x, 0, lookDir.z);
+				transform.rotation = Quaternion.LookRotation(lookDir);
+
+				ActionState = HumanActionStates.Melee;
+				MyAnimator.SetTrigger("Kick");
+				IsBodyLocked = true;
+			}
+
 			return true;
 		}
 		else
 		{
-			OnInjury(hitNormal, UnityEngine.Random.value > 0.5f);
+			OnInjury(hitNormal, UnityEngine.Random.value >= knockBackChance);
 			MyAI.Sensor.OnTakingDamage(attacker);
 			float finalDamage = 0;
 			if(this.Inventory.ArmorSlot != null)
@@ -1556,11 +1590,11 @@ public class HumanCharacter : Character
 		}
 	}
 
-	public void OnInjury(Vector3 normal, bool isHard)
+	public void OnInjury(Vector3 normal, bool isKnockBack)
 	{
 		if(ActionState != HumanActionStates.Twitch)
 		{
-			if(!isHard)
+			if(!isKnockBack)
 			{
 				this.MyAnimator.SetTrigger("Injure");
 				if(MyAnimator.GetBool("IsAiming"))
@@ -1770,16 +1804,20 @@ public class HumanCharacter : Character
 		ActionState = HumanActionStates.None;
 		_meleeStrikeStage = 0;
 		IsMoveLocked = false;
+		IsBodyLocked = false;
 		_isComboAttack = false;
 
 		MyHeadIK.SmoothEnable(9);
-		MyReference.CurrentWeapon.GetComponent<MeleeWeapon>().SwingStop();
+		if(MyReference.CurrentWeapon != null)
+		{
+			MyReference.CurrentWeapon.GetComponent<MeleeWeapon>().SwingStop();
+		}
 		Debug.Log("strike right finished");
 	}
 
 	public void OnMeleeBlockFinish()
 	{
-		this.MyLeftHandIK.SmoothDisable(6);
+		this.MyLeftHandIK.InstantDisable();
 		ActionState = HumanActionStates.None;
 		_meleeStrikeStage = 0;
 		IsMoveLocked = false;

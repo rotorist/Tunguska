@@ -26,4 +26,5 @@ public class CharacterReference : MonoBehaviour
 	public Weapon FixedMeleeRight;
 	public BoxCollider DeathCollider;
 	public CapsuleCollider LiveCollider;
+	public FootKickCollider RightFoot;
 }

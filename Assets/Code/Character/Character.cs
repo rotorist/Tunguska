@@ -55,7 +55,7 @@ public abstract class Character : MonoBehaviour
 	public abstract void SendDelayCallBack(float delay, DelayCallBack callback, object parameter);
 	public abstract void SendCommand(CharacterCommands command);
 	public abstract bool SendDamage(float damage, float penetration, Vector3 hitNormal, Character attacker, Weapon attackerWeapon);
-	public abstract bool SendMeleeDamage (float sharpDamage, float bluntDamage, Vector3 hitNormal, Character attacker);
+	public abstract bool SendMeleeDamage (float sharpDamage, float bluntDamage, Vector3 hitNormal, Character attacker, float knockBackChance);
 	public abstract bool SendCriticalDamage(float damage, float penetration, Vector3 hitNormal, Character attacker, Weapon attackerWeapon);
 
 	public abstract void OnSuccessfulHit(Character target);
