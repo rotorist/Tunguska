@@ -324,7 +324,7 @@ public class MutantCharacter : Character
 		}
 		else
 		{
-			OnInjury(hitNormal, UnityEngine.Random.value >= knockBackChance);
+			OnInjury(hitNormal, UnityEngine.Random.value <= knockBackChance);
 			MyAI.Sensor.OnTakingDamage(attacker);
 			float finalDamage = 0;
 			if(this.Inventory.ArmorSlot != null)
@@ -437,9 +437,30 @@ public class MutantCharacter : Character
 		}
 		else
 		{
-			MyAI.BlackBoard.AnimationAction = AnimationActions.KnockBack;
-			MyAI.BlackBoard.ActionMovementDest = transform.position - transform.forward * 1;
-			MyAI.BlackBoard.ActionMovementSpeed = 1.5f;
+			//if normal is in front of character then knock back, other knock forward
+
+			normal = new Vector3(normal.x, 0, normal.z);
+			float bodyAngle = Vector3.Angle(transform.forward, normal * -1);
+
+			Vector3 lookDir = normal;
+
+
+			if(bodyAngle <= 90)
+			{
+				lookDir = normal * -1;
+				MyAI.BlackBoard.AnimationAction = AnimationActions.KnockBack;
+				MyAI.BlackBoard.ActionMovementDest = transform.position + normal.normalized * 1; //transform.position - transform.forward * 1;
+				MyAI.BlackBoard.ActionMovementSpeed = 1.5f;
+			}
+			else
+			{
+				MyAI.BlackBoard.AnimationAction = AnimationActions.KnockForward;
+				MyAI.BlackBoard.ActionMovementDest = transform.position + normal.normalized * 1.2f; //transform.position + transform.forward * 1.5f;
+				MyAI.BlackBoard.ActionMovementSpeed = 2f;
+			}
+
+			lookDir = new Vector3(lookDir.x, 0, lookDir.z);
+			transform.rotation = Quaternion.LookRotation(lookDir);
 
 			SendCommand(CharacterCommands.PlayAnimationAction);
 		}

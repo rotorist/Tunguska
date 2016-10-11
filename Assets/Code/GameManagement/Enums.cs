@@ -200,6 +200,7 @@ public enum AnimationActions
 {
 	ComboAttack,
 	KnockBack,
+	KnockForward,
 	Sit,
 
 }

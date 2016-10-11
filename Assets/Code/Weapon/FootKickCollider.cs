@@ -39,7 +39,8 @@ public class FootKickCollider : MonoBehaviour
 		if(hitCharacter != null)
 		{
 			//Debug.Log("Kicked somebody! " + hitCharacter.name);
-			hitCharacter.SendMeleeDamage(0, 0, normal, Attacker, 0);
+			Vector3 fakeNormal = (hitCharacter.transform.position - Attacker.transform.position).normalized;
+			hitCharacter.SendMeleeDamage(0, 0, fakeNormal, Attacker, 1);
 
 
 		}

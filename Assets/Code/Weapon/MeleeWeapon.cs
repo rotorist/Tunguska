@@ -44,7 +44,8 @@ public class MeleeWeapon : Weapon
 		if(hitCharacter != null)
 		{
 			//Debug.Log("hit somebody! " + hitCharacter.name);
-			bool isBlocked = hitCharacter.SendMeleeDamage(30, 10, normal, Attacker, 0.5f);
+			Vector3 fakeNormal = (hitCharacter.transform.position - Attacker.transform.position).normalized;
+			bool isBlocked = hitCharacter.SendMeleeDamage(30, 10, fakeNormal, Attacker, 1f);
 
 			if(isBlocked)
 			{

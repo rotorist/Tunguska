@@ -60,6 +60,13 @@ public class MutantAnimStateAction : MutantAnimStateBase
 			this.ParentCharacter.MyNavAgent.speed = this.ParentCharacter.MyAI.BlackBoard.ActionMovementSpeed;
 			this.ParentCharacter.MyNavAgent.acceleration = 60;
 		}
+		else if(this.ParentCharacter.MyAI.BlackBoard.AnimationAction == AnimationActions.KnockForward)
+		{
+			this.ParentCharacter.MyAnimator.SetTrigger("KnockForward");
+			this.ParentCharacter.MyNavAgent.destination = this.ParentCharacter.MyAI.BlackBoard.ActionMovementDest;
+			this.ParentCharacter.MyNavAgent.speed = this.ParentCharacter.MyAI.BlackBoard.ActionMovementSpeed;
+			this.ParentCharacter.MyNavAgent.acceleration = 60;
+		}
 	}
 
 	private void UpdateState(MutantBodyStates state)
