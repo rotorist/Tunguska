@@ -509,8 +509,8 @@ public class HumanCharacter : Character
 					MyAimIK.solver.SmoothEnable(6f);
 					MyHeadIK.InstantDisable();
 					MyAnimator.SetBool("IsAiming", true);
-					if(MyAI.ControlType != AIControlType.Player)
-						Debug.LogError("Animation parameter IsAiming has been set");
+					//if(MyAI.ControlType != AIControlType.Player)
+					//	Debug.LogError("Animation parameter IsAiming has been set");
 					MyReference.Flashlight.transform.localEulerAngles = new Vector3(0, 0, 0);
 				}
 				else
