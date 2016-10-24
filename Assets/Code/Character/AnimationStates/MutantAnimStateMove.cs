@@ -104,8 +104,17 @@ public class MutantAnimStateMove : MutantAnimStateBase
 				}
 				else
 				{
-					agent.speed = this.ParentCharacter.MyStatus.WalkSpeed * this.ParentCharacter.MyStatus.WalkSpeedModifier;
-					agent.acceleration = 6;
+					if(this.ParentCharacter.IsAlert())
+					{
+						agent.speed = this.ParentCharacter.MyStatus.WalkSpeed * this.ParentCharacter.MyStatus.WalkSpeedModifier * 1.5f;
+						agent.acceleration = 12;
+					}
+					else
+					{
+						agent.speed = this.ParentCharacter.MyStatus.WalkSpeed * this.ParentCharacter.MyStatus.WalkSpeedModifier;
+						agent.acceleration = 6;
+					}
+
 				}
 			}
 

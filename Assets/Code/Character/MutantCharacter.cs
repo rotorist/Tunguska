@@ -87,8 +87,9 @@ public class MutantCharacter : Character
 		ActionState = HumanActionStates.None;
 
 
-		this.MyStatus = new CharacterStatus();
-		this.MyStatus.Initialize();
+		this.MyStatus = GetComponent<CharacterStatus>();
+		//this.MyStatus.Initialize();
+
 
 		this.MyStatus.RunSpeedModifier = 1f;
 

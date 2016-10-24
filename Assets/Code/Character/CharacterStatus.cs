@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CharacterStatus
+public class CharacterStatus : MonoBehaviour
 {
 	public float WalkSpeed;
 	public float StrafeSpeed;

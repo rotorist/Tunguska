@@ -126,7 +126,7 @@ public class HumanCharacter : Character
 
 
 
-		this.MyStatus = new CharacterStatus();
+		this.MyStatus = GetComponent<CharacterStatus>();
 		this.MyStatus.Initialize();
 
 		this.Stealth = new CharacterStealth(this);
