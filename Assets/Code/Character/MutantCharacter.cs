@@ -53,6 +53,7 @@ public class MutantCharacter : Character
 			if(MyAnimator.GetInteger("AlertLevel") <= 1)
 			{
 				MyAnimator.SetInteger("AlertLevel", 2);
+				Debug.LogError("setting alert level to TWO");
 			}
 		}
 		else
@@ -60,6 +61,7 @@ public class MutantCharacter : Character
 			if(MyAnimator.GetInteger("AlertLevel") > 1)
 			{
 				MyAnimator.SetInteger("AlertLevel", 1);
+				Debug.LogError("setting alert level to ONE");
 			}
 		}
 	}

@@ -48,7 +48,10 @@ public class MutantAnimStateMove : MutantAnimStateBase
 		}
 		else if(this.ParentCharacter.CurrentStance == HumanStances.Walk)
 		{
-			targetVSpeed = 0.8f * ParentCharacter.MyStatus.WalkSpeedModifier;
+
+			targetVSpeed = 0.5f * ParentCharacter.MyStatus.WalkSpeedModifier;
+
+
 			ParentCharacter.Stealth.SetNoiseLevel(8, 0.6f);
 		}
 
@@ -106,7 +109,7 @@ public class MutantAnimStateMove : MutantAnimStateBase
 				{
 					if(this.ParentCharacter.IsAlert())
 					{
-						agent.speed = this.ParentCharacter.MyStatus.WalkSpeed * this.ParentCharacter.MyStatus.WalkSpeedModifier * 1.5f;
+						agent.speed = this.ParentCharacter.MyStatus.WalkSpeed * this.ParentCharacter.MyStatus.WalkSpeedModifier * 1f;
 						agent.acceleration = 12;
 					}
 					else
