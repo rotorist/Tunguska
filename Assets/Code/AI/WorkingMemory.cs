@@ -99,6 +99,7 @@ public class WorkingMemory
 		//update personal threat dir
 		_parentCharacter.MyAI.BlackBoard.AvgPersonalThreatDir = threatDir;
 
+		/*
 		//if no known enemies then lower guard level
 		if(knownEnemyCount <= 0)
 		{
@@ -109,6 +110,7 @@ public class WorkingMemory
 			}
 
 		}
+		*/
 	}
 
 	public WorkingMemoryFact AddFact(FactType type, object target, Vector3 lastKnownPos, float confidence, float dropRate)

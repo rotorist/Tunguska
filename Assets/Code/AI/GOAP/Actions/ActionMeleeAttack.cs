@@ -104,16 +104,12 @@ public class ActionMeleeAttack : GoapAction
 	public override bool CheckContextPrecondition ()
 	{
 
-		//Debug.Log("ranged attack precondition; enemy threat is " + ParentCharacter.MyAI.BlackBoard.TargetEnemyThreat);
+		Debug.Log("ranged attack precondition; enemy threat is " + ParentCharacter.MyAI.BlackBoard.TargetEnemyThreat);
 		if(ParentCharacter.MyAI.BlackBoard.GuardLevel == 0)
 		{
 			return false;
 		}
-
-		if(ParentCharacter.MyAI.BlackBoard.TargetEnemyThreat < 0.66f)
-		{
-			return false;
-		}
+			
 
 
 		//CsDebug.Inst.CharLog(ParentCharacter, "Checking melee attack precondition, pass");
@@ -225,7 +221,7 @@ public class ActionMeleeAttack : GoapAction
 							ParentCharacter.SendCommand(CharacterCommands.QuickAttack);
 						}
 						_attackTimer = -1;
-						_attackWaitTimeout = UnityEngine.Random.Range(1f, 3f);
+						_attackWaitTimeout = UnityEngine.Random.Range(0.5f, 1.5f);
 					}
 				}
 			}

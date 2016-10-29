@@ -51,7 +51,7 @@ public class ActionRangedAttack : GoapAction
 
 	public override void StopAction()
 	{
-		CsDebug.Inst.CharLog(ParentCharacter, "Stop executing Ranged Attack " + ParentCharacter.name);
+		Debug.Log("Stop executing Ranged Attack " + ParentCharacter.name);
 		_executionStopped = true;
 		ParentCharacter.MyAI.WeaponSystem.StopFiringRangedWeapon();
 		ParentCharacter.MyEventHandler.OnActionUpdateTimer -= UpdateAction;
@@ -82,10 +82,12 @@ public class ActionRangedAttack : GoapAction
 			return true;
 		}
 
+		//Debug.Log("Ranged attack: is targetenemy null? " + (ParentCharacter.MyAI.BlackBoard.TargetEnemy == null));
 		if(ParentCharacter.MyAI.BlackBoard.TargetEnemy == null)
 		{
 			return true;
 		}
+
 
 		//if top priority goal is follow, check if i'm too far from follow target or guard target
 		GoapGoal top = ParentCharacter.MyAI.GetDynamicGoal(0);
@@ -102,7 +104,7 @@ public class ActionRangedAttack : GoapAction
 		{
 
 			object result = ParentCharacter.MyAI.EvaluateWorldState(state);
-			//CsDebug.Inst.CharLog(ParentCharacter, "Checking if state " + state.Name + " value is " + state.Value + " result: " + result);
+			CsDebug.Inst.CharLog(ParentCharacter, "Checking if state " + state.Name + " value is " + state.Value + " result: " + result);
 			if(!result.Equals(state.Value))
 			{
 				//CsDebug.Inst.CharLog(ParentCharacter, "result is not equal to effect");
@@ -154,13 +156,12 @@ public class ActionRangedAttack : GoapAction
 
 	public void UpdateAction()
 	{
+
 		//continue to check if body is locked, i.e. wait till it's not locked
 		if(!CheckAvailability() || _executionStopped)
 		{
 			return;
 		}
-
-
 
 
 
@@ -284,7 +285,6 @@ public class ActionRangedAttack : GoapAction
 		{
 			ParentCharacter.MyAI.WeaponSystem.StopFiringRangedWeapon();
 		}
-
 
 		if(CheckActionCompletion() && _exitDelayTimer > 5)
 		{

@@ -655,6 +655,7 @@ public class HumanCharacter : Character
 		{
 			if(ActionState == HumanActionStates.None)
 			{
+				Debug.Log("Unarm " + this.name);
 				MyLeftHandIK.SmoothDisable();
 				UpperBodyState = HumanUpperBodyStates.Idle;
 				MyAimIK.solver.SmoothDisable();

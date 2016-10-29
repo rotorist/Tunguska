@@ -185,7 +185,7 @@ public class ActionInvestigate: GoapAction
 						ParentCharacter.CurrentStance = HumanStances.Walk;
 						ParentCharacter.SendCommand(CharacterCommands.StopAim);
 					}
-					else if(disturbDist.magnitude < 0.7f)
+					else if(disturbThreat < 0.7f)
 					{
 						//weapon drawn, flashlight on, walk to check
 						ParentCharacter.MyAI.BlackBoard.GuardLevel = 2;
