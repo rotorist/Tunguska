@@ -266,7 +266,48 @@ public class MutantCharacter : Character
 			ActionState = HumanActionStates.Melee;
 		}
 
+		if(command == CharacterCommands.Bite)
+		{
+			if(ActionState != HumanActionStates.None || MyAI.BlackBoard.TargetEnemy == null)
+			{
+				return;
+			}
 
+
+			//check if the target enemy is close enough and angle between character and enemy is less than 45
+			if(Vector3.Distance(MyAI.BlackBoard.TargetEnemy.transform.position, transform.position) > 2 || 
+				Vector3.Angle(MyAI.BlackBoard.TargetEnemy.transform.forward, transform.forward) > 45)
+			{
+				return;
+			}
+
+			Vector3 lineOfSight = MyAI.BlackBoard.TargetEnemy.transform.position - transform.position;
+			//check if angle between character facing and target line of sight is less than 45
+			if(Vector3.Angle(lineOfSight, transform.forward) > 45)
+			{
+				return;
+			}
+
+
+			//stop movement
+			SendCommand(CharacterCommands.Idle);
+			IsBodyLocked = true;
+			MyNavAgent.enabled = false;
+
+			//place player right behind target
+			transform.position = MyAI.BlackBoard.TargetEnemy.transform.position - lineOfSight.normalized * 0.25f;
+
+			//align player facing direction to enemy's
+			lineOfSight = new Vector3(lineOfSight.x, 0, lineOfSight.z);
+			Quaternion rotation = Quaternion.LookRotation(lineOfSight);
+			transform.rotation = rotation;
+
+			MyAnimator.SetTrigger("Bite");
+			_strangleTarget = MyAI.BlackBoard.TargetEnemy;
+
+			SendCommand(CharacterCommands.StopAim);
+			ActionState = HumanActionStates.Strangle;
+		}
 	}
 
 	public override bool SendDamage(float damage, float penetration, Vector3 hitNormal, Character attacker, Weapon attackerWeapon)
@@ -571,7 +612,48 @@ public class MutantCharacter : Character
 		SendCommand(CharacterCommands.AnimationActionDone);
 	}
 
+	public void OnStartStrangle()
+	{
+		if(MyAI.BlackBoard.TargetEnemy == null || Vector3.Distance(MyAI.BlackBoard.TargetEnemy.transform.position, transform.position) > 0.5f)
+		{
+			//cancel the strangle
+			MyAnimator.SetTrigger("Cancel");
+		}
 
+		Character target = MyAI.BlackBoard.TargetEnemy;
+		target.SendCommand(CharacterCommands.Idle);
+		target.SendCommand(CharacterCommands.StopAim);
+		target.IsBodyLocked = true;
+		target.SendDamage(1, 0, Vector3.zero, this, null);
+
+
+		//align enemy facing direction to player's
+		Vector3 lineOfSight = target.transform.position - transform.position;
+		lineOfSight = new Vector3(lineOfSight.x, 0, lineOfSight.z);
+		Quaternion rotation = Quaternion.LookRotation(lineOfSight);
+		target.transform.rotation = rotation;
+		target.MyAnimator.SetTrigger("GetStrangled");
+
+
+		Stealth.SetNoiseLevel(10, 0.8f);
+	}
+
+	public void OnEndStrangle()
+	{
+		if(ActionState == HumanActionStates.Strangle)
+		{
+			ActionState = HumanActionStates.None;
+
+			Vector3 lineOfSight = _strangleTarget.transform.position - transform.position;
+			transform.position = _strangleTarget.transform.position - lineOfSight.normalized;
+
+			_strangleTarget.IsBodyLocked = true;
+
+			IsBodyLocked = false;
+			MyNavAgent.enabled = true;
+			_strangleTarget = null;
+		}
+	}
 
 
 

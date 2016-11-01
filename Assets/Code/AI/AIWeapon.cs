@@ -230,7 +230,15 @@ public class AIWeapon
 			Weapon currentWeapon = _parentCharacter.MyReference.CurrentWeapon.GetComponent<Weapon>();
 			return currentWeapon;
 		}
-		else
+		else if(_parentCharacter.MyReference.FixedMeleeLeft != null)
+		{
+			return _parentCharacter.MyReference.FixedMeleeLeft.GetComponent<Weapon>();
+		}
+		else if(_parentCharacter.MyReference.FixedMeleeRight != null)
+		{
+			return _parentCharacter.MyReference.FixedMeleeRight.GetComponent<Weapon>();
+		}
+		else 
 		{
 			return null;
 		}

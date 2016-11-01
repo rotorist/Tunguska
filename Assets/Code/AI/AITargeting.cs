@@ -125,8 +125,9 @@ public class AITargeting
 
 			if(_parentCharacter.MyAI.BlackBoard.TargetEnemy != null)
 			{
-				Vector3 lookDir = _parentCharacter.MyAI.BlackBoard.TargetEnemy.transform.position - _parentCharacter.MyReference.Eyes.transform.position;
-				lookPos = _parentCharacter.transform.position + lookDir.normalized * 2 + new Vector3(0, aimHeight, 0);
+				//Vector3 lookDir = _parentCharacter.MyAI.BlackBoard.TargetEnemy.transform.position - _parentCharacter.transform.position;
+				//lookPos = _parentCharacter.transform.position + lookDir.normalized * 2 + new Vector3(0, aimHeight, 0);
+				lookPos = _parentCharacter.MyAI.BlackBoard.TargetEnemy.transform.position + new Vector3(0, aimHeight, 0);
 			}
 			else
 			{

@@ -301,6 +301,7 @@ public class HumanCharacter : Character
 		//following commands are not given by AI or user. All commands that will unlock the body go here
 		if(command == CharacterCommands.StopAim)
 		{
+			Debug.Log("Stop AIM " + this.name);
 			if(ActionState == HumanActionStates.None)
 			{
 				MyAI.WeaponSystem.StopFiringRangedWeapon();
@@ -1607,7 +1608,7 @@ public class HumanCharacter : Character
 
 	public void OnInjury(Vector3 normal, bool isKnockBack)
 	{
-		if(ActionState != HumanActionStates.Twitch)
+		if(ActionState == HumanActionStates.None)
 		{
 			if(!isKnockBack || normal == Vector3.zero)
 			{

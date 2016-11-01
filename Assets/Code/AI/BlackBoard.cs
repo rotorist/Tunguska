@@ -88,6 +88,8 @@ public class BlackBoard
 	public float HighestDisturbanceThreat;
 	public object HightestDisturbanceSource;
 
+	public int NumberOfKnownEnemies;
+
 	public int GuardLevel; //0-3; 0 means ignore all events; 1 means not on guard (patrolling); 2 means expecting trouble; 3 means looking for trouble (attacking)
 	public Vector3 GuardDirection;
 	public int GuardConfigStage; //0, 1, 2

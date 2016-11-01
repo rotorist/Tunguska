@@ -122,7 +122,7 @@ ModelImporter:
     - serializedVersion: 16
       name: MutantBite
       takeName: mixamo.com
-      firstFrame: 0
+      firstFrame: 14
       lastFrame: 125
       wrapMode: 0
       orientationOffsetY: 0

@@ -4,7 +4,7 @@ using System.Collections;
 public class MeleeWeapon : Weapon
 {
 	public bool IsSwung;
-
+	public float Reach;
 
 	private BoxCollider _collider;
 
@@ -16,11 +16,18 @@ public class MeleeWeapon : Weapon
 		{
 			return;
 		}
+
+
 		//Debug.Log("melee weapon hit: attacker " + Attacker.name);
 
 		Character hitCharacter = collision.collider.GetComponent<Character>();
 		Vector3 pos = collision.contacts[0].point;
 		Vector3 normal = collision.contacts[0].normal;
+
+		if(hitCharacter != null && hitCharacter.Faction == Attacker.Faction)
+		{
+			return;
+		}
 
 		//Debug.Log("hit collider is " + collision.collider.name);
 		if(hitCharacter == Attacker)

@@ -562,6 +562,19 @@ public class AI : MonoBehaviour
 
 	public void OnCurrentActionComplete()
 	{
+		
+		//if no known enemies then lower guard level
+		if(BlackBoard.NumberOfKnownEnemies <= 0)
+		{
+			if(_parentCharacter.MyAI.BlackBoard.GuardLevel > 1)
+			{
+				_parentCharacter.MyAI.BlackBoard.GuardLevel = 1;
+				_parentCharacter.SendCommand(CharacterCommands.SetAlert);
+			}
+
+		}
+
+
 		StartCoroutine(WaitAndExecuteNextAction(0.1f));
 
 	}

@@ -100,6 +100,7 @@ public enum CharacterCommands
 	RunningAttack,
 	PlayAnimationAction,
 	AnimationActionDone,
+	Bite,
 }
 
 public enum HumanStances

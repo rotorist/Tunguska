@@ -6,6 +6,7 @@ public class ActionMeleeAttack : GoapAction
 {
 	private float _attackTimer;
 	private float _attackWaitTimeout;
+	private float _weaponReach;
 
 	public ActionMeleeAttack(string name, string description, float cost)
 	{
@@ -23,6 +24,17 @@ public class ActionMeleeAttack : GoapAction
 		_executionStopped = false;
 		_attackTimer = 0;
 		_attackWaitTimeout = UnityEngine.Random.Range(2f, 4f);
+
+		Weapon weapon = ParentCharacter.MyAI.WeaponSystem.GetCurrentWeapon();
+		MeleeWeapon meleeWeapon = null;
+		if(weapon != null)
+		{
+			meleeWeapon = weapon.GetComponent<MeleeWeapon>();
+		}
+		if(meleeWeapon != null)
+		{
+			_weaponReach = meleeWeapon.Reach;
+		}
 
 		UpdateAction();
 
@@ -134,7 +146,7 @@ public class ActionMeleeAttack : GoapAction
 				ParentCharacter.SendCommand(CharacterCommands.GoToPosition);
 				ParentCharacter.CurrentStance = HumanStances.Run;
 			}
-			else if(dist > 1.6f)
+			else if(dist > _weaponReach)
 			{
 				ParentCharacter.SendCommand(CharacterCommands.GoToPosition);
 				ParentCharacter.CurrentStance = HumanStances.Walk;
@@ -164,7 +176,7 @@ public class ActionMeleeAttack : GoapAction
 
 			if(targetVelocity.magnitude >= 0.5f)
 			{
-				if(dist > 1.2f)
+				if(dist > _weaponReach * 0.75f)
 				{
 					//go to target enemy
 					ParentCharacter.MyAI.BlackBoard.NavTarget = ParentCharacter.MyAI.BlackBoard.TargetEnemy.transform.position + targetVelocity * 0.1f;
@@ -191,7 +203,7 @@ public class ActionMeleeAttack : GoapAction
 					ParentCharacter.CurrentStance = HumanStances.Run;
 
 				}
-				else if(dist > 1.6f)
+				else if(dist > _weaponReach)
 				{
 					ParentCharacter.MyAI.BlackBoard.NavTarget = ParentCharacter.MyAI.BlackBoard.TargetEnemy.transform.position;
 					ParentCharacter.Destination = ParentCharacter.MyAI.BlackBoard.NavTarget;

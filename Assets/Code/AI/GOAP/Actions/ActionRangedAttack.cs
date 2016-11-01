@@ -82,7 +82,7 @@ public class ActionRangedAttack : GoapAction
 			return true;
 		}
 
-		//Debug.Log("Ranged attack: is targetenemy null? " + (ParentCharacter.MyAI.BlackBoard.TargetEnemy == null));
+		Debug.Log("Ranged attack: is targetenemy null? " + (ParentCharacter.MyAI.BlackBoard.TargetEnemy == null));
 		if(ParentCharacter.MyAI.BlackBoard.TargetEnemy == null)
 		{
 			return true;
@@ -177,13 +177,16 @@ public class ActionRangedAttack : GoapAction
 
 			if(_maneuverState == ManeuverState.MoveTowards)
 			{
-				//Debug.Log("maneuver state " + _maneuverState);
+				
 				if(dist < gunRange)
 				{
+					Debug.Log("going into shuffle state, from " + _maneuverState);
 					_maneuverState = ManeuverState.Shuffle;
 				}
 				else
 				{
+					Debug.Log("maneuver state " + _maneuverState);
+
 					//if using secondary weapon, switch to primary
 					if(currentWeapon != null && currentWeapon.WeaponItem.Type == ItemType.SideArm && ParentCharacter.MyAI.WeaponSystem.PrimaryWeapon != null)
 					{
@@ -202,7 +205,7 @@ public class ActionRangedAttack : GoapAction
 			}
 			else if(_maneuverState == ManeuverState.MoveAway)
 			{
-				//Debug.Log("maneuver state " + _maneuverState);
+				Debug.Log("maneuver state " + _maneuverState);
 				if(dist > gunRange * 0.75f)
 				{
 					_maneuverState = ManeuverState.Shuffle;
@@ -211,23 +214,22 @@ public class ActionRangedAttack : GoapAction
 				{
 					_maneuverState = ManeuverState.MoveTowards;
 				}
-				else
-				{
-					//shuffle backwards while aiming 
-					Vector3 backwardDist = (ParentCharacter.transform.position - ParentCharacter.MyAI.BlackBoard.TargetEnemy.transform.position).normalized;
-					int rand = UnityEngine.Random.Range(0, 100);
-					int leftRight = (rand >= 50) ? -1 : 1;
-					Vector3 shuffleCenter = ParentCharacter.transform.position + backwardDist * 3 + Vector3.Cross(threatDir, Vector3.up) * 3 * leftRight;
-					Vector3 shuffleDest = Vector3.zero;
-					AI.RandomPoint(shuffleCenter, new Vector3(2, 2, 2), out shuffleDest);
-					ParentCharacter.MyAI.BlackBoard.NavTarget = shuffleDest;
-					ParentCharacter.SendCommand(CharacterCommands.Aim);
-					ParentCharacter.CurrentStance = HumanStances.Walk;
-				}
+
+				//shuffle backwards while aiming 
+				Vector3 backwardDist = (ParentCharacter.transform.position - ParentCharacter.MyAI.BlackBoard.TargetEnemy.transform.position).normalized;
+				int rand = UnityEngine.Random.Range(0, 100);
+				int leftRight = (rand >= 50) ? -1 : 1;
+				Vector3 shuffleCenter = ParentCharacter.transform.position + backwardDist * 3 + Vector3.Cross(threatDir, Vector3.up) * 3 * leftRight;
+				Vector3 shuffleDest = Vector3.zero;
+				AI.RandomPoint(shuffleCenter, new Vector3(2, 2, 2), out shuffleDest);
+				ParentCharacter.MyAI.BlackBoard.NavTarget = shuffleDest;
+				ParentCharacter.SendCommand(CharacterCommands.Aim);
+				ParentCharacter.CurrentStance = HumanStances.Walk;
+
 			}
 			else
 			{
-				//Debug.Log("maneuver state " + _maneuverState);
+				Debug.Log("maneuver state " + _maneuverState);
 				if(dist > gunRange)
 				{
 					_maneuverState = ManeuverState.MoveTowards;
@@ -254,7 +256,7 @@ public class ActionRangedAttack : GoapAction
 
 					if(threat >= 0 && UnityEngine.Random.value > 0.4f)
 					{
-						//Debug.Log("shuffling");
+						Debug.Log("shuffling");
 						int rand = UnityEngine.Random.Range(0, 100);
 						int leftRight = (rand >= 50) ? -1 : 1;
 						shuffleCenter = ParentCharacter.transform.position + Vector3.Cross(threatDir, Vector3.up) * 3 * leftRight;
