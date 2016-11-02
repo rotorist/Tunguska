@@ -274,19 +274,8 @@ public class MutantCharacter : Character
 			}
 
 
-			//check if the target enemy is close enough and angle between character and enemy is less than 45
-			if(Vector3.Distance(MyAI.BlackBoard.TargetEnemy.transform.position, transform.position) > 2 || 
-				Vector3.Angle(MyAI.BlackBoard.TargetEnemy.transform.forward, transform.forward) > 45)
-			{
-				return;
-			}
-
+			Debug.Log("Start biting");
 			Vector3 lineOfSight = MyAI.BlackBoard.TargetEnemy.transform.position - transform.position;
-			//check if angle between character facing and target line of sight is less than 45
-			if(Vector3.Angle(lineOfSight, transform.forward) > 45)
-			{
-				return;
-			}
 
 
 			//stop movement
@@ -295,7 +284,7 @@ public class MutantCharacter : Character
 			MyNavAgent.enabled = false;
 
 			//place player right behind target
-			transform.position = MyAI.BlackBoard.TargetEnemy.transform.position - lineOfSight.normalized * 0.25f;
+			transform.position = MyAI.BlackBoard.TargetEnemy.transform.position - lineOfSight.normalized * 0.6f;
 
 			//align player facing direction to enemy's
 			lineOfSight = new Vector3(lineOfSight.x, 0, lineOfSight.z);
