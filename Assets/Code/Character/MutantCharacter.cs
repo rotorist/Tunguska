@@ -28,6 +28,8 @@ public class MutantCharacter : Character
 	private int _meleeStrikeStage;//0, 1, 2, 3
 	private int _meleeSide; //0=left, 1=right
 
+
+
 	void Update()
 	{
 		CurrentAnimState.Update();
@@ -194,6 +196,11 @@ public class MutantCharacter : Character
 
 		this.MyAnimEventHandler.OnMeleeStrikeHalfWay -= OnMeleeStrikeHalfWay;
 		this.MyAnimEventHandler.OnMeleeStrikeHalfWay += OnMeleeStrikeHalfWay;
+
+		this.MyAnimEventHandler.OnStartStrangle -= OnStartStrangle;
+		this.MyAnimEventHandler.OnStartStrangle += OnStartStrangle;
+		this.MyAnimEventHandler.OnEndStrangle -= OnEndStrangle;
+		this.MyAnimEventHandler.OnEndStrangle += OnEndStrangle;
 	}
 
 	public override void SendCommand (CharacterCommands command)
@@ -294,7 +301,7 @@ public class MutantCharacter : Character
 			MyAnimator.SetTrigger("Bite");
 			_strangleTarget = MyAI.BlackBoard.TargetEnemy;
 
-			SendCommand(CharacterCommands.StopAim);
+
 			ActionState = HumanActionStates.Strangle;
 		}
 	}
@@ -603,13 +610,13 @@ public class MutantCharacter : Character
 
 	public void OnStartStrangle()
 	{
-		if(MyAI.BlackBoard.TargetEnemy == null || Vector3.Distance(MyAI.BlackBoard.TargetEnemy.transform.position, transform.position) > 0.5f)
+		if(_strangleTarget == null || Vector3.Distance(MyAI.BlackBoard.TargetEnemy.transform.position, transform.position) > 1f)
 		{
-			//cancel the strangle
 			MyAnimator.SetTrigger("Cancel");
+			return;
 		}
 
-		Character target = MyAI.BlackBoard.TargetEnemy;
+		Character target = _strangleTarget;
 		target.SendCommand(CharacterCommands.Idle);
 		target.SendCommand(CharacterCommands.StopAim);
 		target.IsBodyLocked = true;
@@ -636,7 +643,13 @@ public class MutantCharacter : Character
 			Vector3 lineOfSight = _strangleTarget.transform.position - transform.position;
 			transform.position = _strangleTarget.transform.position - lineOfSight.normalized;
 
-			_strangleTarget.IsBodyLocked = true;
+			if(_strangleTarget.IsAlive)
+			{
+				_strangleTarget.IsBodyLocked = false;
+				_strangleTarget.MyAnimator.SetTrigger("Cancel");
+				_strangleTarget = null;
+			}
+
 
 			IsBodyLocked = false;
 			MyNavAgent.enabled = true;

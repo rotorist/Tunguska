@@ -287,6 +287,7 @@ public class HumanCharacter : Character
 			Debug.Log("Action Done");
 			IsBodyLocked = false;
 			IsMoveLocked = false;
+
 		}
 
 

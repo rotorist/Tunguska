@@ -141,6 +141,7 @@ public class HumanAnimStateIdle : HumanAnimStateBase
 	{
 		Debug.Log("Initializing Stand Idle");
 		_vSpeed = this.ParentCharacter.MyAnimator.GetFloat("VSpeed");
+		this.ParentCharacter.CurrentStance = HumanStances.Run;
 		this.ParentCharacter.MyAnimator.SetFloat("Blend", UnityEngine.Random.value);
 		this.ParentCharacter.MyAnimator.SetBool("IsSneaking", false);
 		this.ParentCharacter.Destination = this.ParentCharacter.transform.position;

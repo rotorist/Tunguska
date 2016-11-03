@@ -864,9 +864,11 @@ public class PlayerControl
 
 	public void OnToggleWeapon2()
 	{
+		Debug.Log("switching to weapon 2");
 		WeaponAnimType weaponType = SelectedPC.GetCurrentAnimWeapon();
-		if(weaponType != WeaponAnimType.Longgun)
+		if(weaponType != WeaponAnimType.Longgun && weaponType != WeaponAnimType.Melee)
 		{
+
 			SelectedPC.SendCommand(CharacterCommands.SwitchWeapon2);
 		}
 		else
