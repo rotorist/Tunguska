@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 80a06bff03a63a44b890081f1dfe13d7
-timeCreated: 1477495683
+guid: 009ccaf3f2229ed44b4140e86b1387ce
+timeCreated: 1478362540
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -93,7 +93,7 @@ ModelImporter:
     400082: mixamorig:Spine1
     400084: mixamorig:Spine2
     400086: //RootNode
-    7400000: MutantBite
+    7400000: MutantInjuredWalk2
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -120,45 +120,29 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: MutantBite
+      name: MutantInjuredWalk2
       takeName: mixamo.com
-      firstFrame: 14
-      lastFrame: 125
+      firstFrame: 0
+      lastFrame: 25
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
+      loopTime: 1
+      loopBlend: 1
       loopBlendOrientation: 1
-      loopBlendPositionY: 1
-      loopBlendPositionXZ: 1
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
       keepOriginalOrientation: 1
       keepOriginalPositionY: 0
-      keepOriginalPositionXZ: 1
+      keepOriginalPositionXZ: 0
       heightFromFeet: 1
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events:
-      - time: 0.094707526
-        functionName: TriggerOnStartStrangle
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: e29b1cf06baaa2544adc78bd2c1e66d0,
-          type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.6713092
-        functionName: TriggerOnEndStrangle
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: e29b1cf06baaa2544adc78bd2c1e66d0,
-          type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
+      events: []
       transformMask:
       - path: 
         weight: 1

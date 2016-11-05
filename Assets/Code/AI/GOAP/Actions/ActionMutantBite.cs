@@ -4,7 +4,14 @@ using System.Collections.Generic;
 
 public class ActionMutantBite : GoapAction
 {
-	private bool _isBiting;
+	private enum BiteState
+	{
+		None,
+		Goto,
+		Bite,
+	}
+	private BiteState _biteState;
+	private float _dist;
 
 	public ActionMutantBite(string name, string description, float cost)
 	{
@@ -20,7 +27,7 @@ public class ActionMutantBite : GoapAction
 		Debug.Log("Start executing ActionMutantBite " + ParentCharacter.name);
 
 		_executionStopped = false;
-		_isBiting = false;
+		_biteState = BiteState.None;
 
 
 
@@ -32,7 +39,8 @@ public class ActionMutantBite : GoapAction
 		ParentCharacter.MyEventHandler.OnPerFrameTimer -= PerFrameUpdate;
 		ParentCharacter.MyEventHandler.OnPerFrameTimer += PerFrameUpdate;
 
-
+		ParentCharacter.MyAnimEventHandler.OnEndStrangle -= OnEndStrangle;
+		ParentCharacter.MyAnimEventHandler.OnEndStrangle += OnEndStrangle;
 
 
 
@@ -44,6 +52,7 @@ public class ActionMutantBite : GoapAction
 	{
 		Debug.Log("Stop executing ActionMutantBite " + ParentCharacter.name);
 		_executionStopped = true;
+		_biteState = BiteState.None;
 
 		ParentCharacter.MyEventHandler.OnOneSecondTimer -= UpdateAction;
 		ParentCharacter.MyEventHandler.OnPerFrameTimer -= PerFrameUpdate;
@@ -75,10 +84,8 @@ public class ActionMutantBite : GoapAction
 			return true;
 		}
 
-		if(_isBiting)
-		{
-			return true;
-		}
+
+			
 
 		foreach(GoapWorldState state in Effects)
 		{
@@ -159,9 +166,9 @@ public class ActionMutantBite : GoapAction
 		if(ParentCharacter.MyAI.BlackBoard.TargetEnemy != null)
 		{
 			//check if is in range
-			float dist = Vector3.Distance(ParentCharacter.transform.position, ParentCharacter.MyAI.BlackBoard.TargetEnemy.transform.position);
+			_dist = Vector3.Distance(ParentCharacter.transform.position, ParentCharacter.MyAI.BlackBoard.TargetEnemy.transform.position);
 
-			if(dist > 1f && !_isBiting)
+			if(_dist > 1.5f && _biteState != BiteState.Bite)
 			{
 				//go to target enemy
 				ParentCharacter.MyAI.BlackBoard.NavTarget = ParentCharacter.MyAI.BlackBoard.TargetEnemy.transform.position - ParentCharacter.MyAI.BlackBoard.TargetEnemy.transform.forward * 0.5f;
@@ -169,13 +176,19 @@ public class ActionMutantBite : GoapAction
 				ParentCharacter.CurrentStance = HumanStances.Run;
 				ParentCharacter.SendCommand(CharacterCommands.GoToPosition);
 			}
+			else if(_dist > 1.5f && _biteState == BiteState.Bite)
+			{
+				ParentCharacter.GetComponent<MutantCharacter>().OnCancelStrangle();
+				StopAction();
+				ParentCharacter.MyEventHandler.TriggerOnActionCompletion();
+			}
 			else
 			{
-				if(!_isBiting)
+				if(_biteState != BiteState.Bite)
 				{
 					Debug.Log("Ready to bite");
 					ParentCharacter.SendCommand(CharacterCommands.Bite);
-					_isBiting = true;
+					_biteState = BiteState.Bite;
 				}
 			}
 
@@ -184,6 +197,12 @@ public class ActionMutantBite : GoapAction
 		}
 	}
 
+	public void OnEndStrangle()
+	{
+		StopAction();
+
+		ParentCharacter.MyEventHandler.TriggerOnActionCompletion();
+	}
 
 
 	private bool CheckAvailability()

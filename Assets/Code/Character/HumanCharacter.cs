@@ -222,6 +222,8 @@ public class HumanCharacter : Character
 
 		this.MyAnimEventHandler.OnMeleePullOutFinish -= OnMeleePullOutFinish;
 		this.MyAnimEventHandler.OnMeleePullOutFinish += OnMeleePullOutFinish;
+		this.MyAnimEventHandler.OnMeleePutAwayFinish -= OnMeleePutAwayFinish;
+		this.MyAnimEventHandler.OnMeleePutAwayFinish += OnMeleePutAwayFinish;
 
 		this.MyAnimEventHandler.OnReloadFinish -= OnReloadFinish;
 		this.MyAnimEventHandler.OnReloadFinish += OnReloadFinish;
@@ -1530,6 +1532,11 @@ public class HumanCharacter : Character
 		
 		ActionState = HumanActionStates.None;
 		//SendCommand(CharacterCommands.Aim);
+	}
+
+	public void OnMeleePutAwayFinish()
+	{
+		ActionState = HumanActionStates.None;
 	}
 
 	public void OnPistolPullOutFinish()

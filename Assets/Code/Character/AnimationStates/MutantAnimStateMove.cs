@@ -78,6 +78,7 @@ public class MutantAnimStateMove : MutantAnimStateBase
 	{
 		Debug.Log("initializing walk forward " + "Dest " + this.ParentCharacter.Destination);
 		this.ParentCharacter.MyAnimator.SetFloat("VSpeed", 0);
+		this.ParentCharacter.MyAnimator.SetFloat("Blend", ParentCharacter.MyStatus.MutantMovementBlend);
 		this.ParentCharacter.MyHeadIK.Weight = 0.75f;
 		this.ParentCharacter.CurrentAnimStateName = "Moving";
 		//this.ParentCharacter.MyHeadIK.solver.SmoothDisable();
@@ -125,7 +126,7 @@ public class MutantAnimStateMove : MutantAnimStateBase
 		}
 
 
-		if(agent.destination != this.ParentCharacter.Destination.Value)
+		if(agent.destination != this.ParentCharacter.Destination.Value) 
 		{
 			agent.SetDestination(this.ParentCharacter.Destination.Value);
 

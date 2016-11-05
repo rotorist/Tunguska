@@ -14,6 +14,7 @@ public class MutantCharacter : Character
 	public MutantUpperBodyStates UpperBodyState;
 	public bool IsRangedCapable;
 
+
 	public override bool IsAlive 
 	{
 		get 
@@ -281,6 +282,8 @@ public class MutantCharacter : Character
 			}
 
 
+
+
 			Debug.Log("Start biting");
 			Vector3 lineOfSight = MyAI.BlackBoard.TargetEnemy.transform.position - transform.position;
 
@@ -291,7 +294,7 @@ public class MutantCharacter : Character
 			MyNavAgent.enabled = false;
 
 			//place player right behind target
-			transform.position = MyAI.BlackBoard.TargetEnemy.transform.position - lineOfSight.normalized * 0.6f;
+			transform.position = MyAI.BlackBoard.TargetEnemy.transform.position - lineOfSight.normalized * 1f;
 
 			//align player facing direction to enemy's
 			lineOfSight = new Vector3(lineOfSight.x, 0, lineOfSight.z);
@@ -610,9 +613,10 @@ public class MutantCharacter : Character
 
 	public void OnStartStrangle()
 	{
-		if(_strangleTarget == null || Vector3.Distance(MyAI.BlackBoard.TargetEnemy.transform.position, transform.position) > 1f)
+		if(_strangleTarget == null)
 		{
-			MyAnimator.SetTrigger("Cancel");
+			MyAnimator.SetTrigger("CancelBite");
+			MyAnimEventHandler.TriggerOnEndStrangle();
 			return;
 		}
 
@@ -643,7 +647,7 @@ public class MutantCharacter : Character
 			Vector3 lineOfSight = _strangleTarget.transform.position - transform.position;
 			transform.position = _strangleTarget.transform.position - lineOfSight.normalized;
 
-			if(_strangleTarget.IsAlive)
+			if(_strangleTarget != null && _strangleTarget.IsAlive)
 			{
 				_strangleTarget.IsBodyLocked = false;
 				_strangleTarget.MyAnimator.SetTrigger("Cancel");
@@ -657,7 +661,11 @@ public class MutantCharacter : Character
 		}
 	}
 
-
+	public void OnCancelStrangle()
+	{
+		MyAnimator.SetTrigger("CancelBite");
+		OnEndStrangle();
+	}
 
 
 

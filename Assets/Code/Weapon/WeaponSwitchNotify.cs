@@ -40,6 +40,10 @@ public class WeaponSwitchNotify : StateMachineBehaviour {
 		{
 			animator.GetComponent<CharacterReference>().ParentCharacter.MyAnimEventHandler.TriggerOnMeleePullOutFinish();
 		}
+		else if(stateInfo.IsName("MeleeSheathWeapon"))
+		{
+			animator.GetComponent<CharacterReference>().ParentCharacter.MyAnimEventHandler.TriggerOnMeleePutAwayFinish();
+		}
 	}
 
 	// OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here

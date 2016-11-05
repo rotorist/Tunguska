@@ -25,7 +25,7 @@ public class CharacterStatus : MonoBehaviour
 	public float EyeSight;
 
 	public int Intelligence; //0, 1, 2
-
+	public float MutantMovementBlend;
 
 	public void Initialize()
 	{

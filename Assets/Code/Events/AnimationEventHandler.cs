@@ -13,6 +13,7 @@ public class AnimationEventHandler : MonoBehaviour
 	public event AnimationEventDelegate OnLongGunPutAwayFinish;
 	public event AnimationEventDelegate OnGrenadePullOutFinish;
 	public event AnimationEventDelegate OnMeleePullOutFinish;
+	public event AnimationEventDelegate OnMeleePutAwayFinish;
 	public event AnimationEventDelegate OnReloadFinish;
 	public event AnimationEventDelegate OnStartStrangle;
 	public event AnimationEventDelegate OnEndStrangle;
@@ -91,6 +92,14 @@ public class AnimationEventHandler : MonoBehaviour
 		if(OnMeleePullOutFinish != null)
 		{
 			OnMeleePullOutFinish();
+		}
+	}
+
+	public void TriggerOnMeleePutAwayFinish()
+	{
+		if(OnMeleePutAwayFinish != null)
+		{
+			OnMeleePutAwayFinish();
 		}
 	}
 

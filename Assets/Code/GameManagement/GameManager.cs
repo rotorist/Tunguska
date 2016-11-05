@@ -113,6 +113,15 @@ public class GameManager : MonoBehaviour
 		mutant2.MyAI.BlackBoard.CombatRange = new Vector3(40, 20, 20);
 		mutant2.MyAI.BlackBoard.HasPatrolInfo = true;
 
+		mutant2 = GameObject.Find("MutantCharacter3").GetComponent<MutantCharacter>();
+		mutant2.Initialize();
+		mutant2.MyStatus.MaxHealth = 100;
+		mutant2.MyStatus.Health = 100;
+		mutant2.MyAI.BlackBoard.PatrolLoc = new Vector3(60, 0, -11);
+		mutant2.MyAI.BlackBoard.PatrolRange = new Vector3(30, 10, 10);
+		mutant2.MyAI.BlackBoard.CombatRange = new Vector3(40, 20, 20);
+		mutant2.MyAI.BlackBoard.HasPatrolInfo = true;
+
 
 
 		//HumanCharacter enemy1 = GameObject.Find("HumanCharacter2").GetComponent<HumanCharacter>();
