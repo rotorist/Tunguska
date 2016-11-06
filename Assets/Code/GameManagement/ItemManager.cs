@@ -81,11 +81,11 @@ public class ItemManager
 		inventory1.Backpack.Add(new GridItemData(LoadItem("ammo12shot"), 4, 9, GridItemOrient.Landscape, 20));
 		inventory1.Backpack.Add(new GridItemData(LoadItem("huntingshotgun"), 0, 0, GridItemOrient.Landscape, 1));
 		inventory1.Backpack.Add(new GridItemData(LoadItem("svd"), 0, 3, GridItemOrient.Landscape, 1));
-		inventory1.Backpack.Add(new GridItemData(LoadItem("ak47"), 1, 6, GridItemOrient.Landscape,1));
+		inventory1.Backpack.Add(new GridItemData(LoadItem("machete"), 1, 6, GridItemOrient.Landscape,1));
 
-		inventory1.RifleSlot = LoadItem("machete");
+		inventory1.RifleSlot = LoadItem("ak47");
 		inventory1.ThrowSlot = LoadItem("pipegrenade");
-		//inventory1.ArmorSlot = LoadItem("flakjacket");
+		inventory1.ArmorSlot = LoadItem("flakjacket");
 		inventory1.SideArmSlot = LoadItem("44magnum");
 		inventory1.HeadSlot = LoadItem("kevlarhelmet");
 

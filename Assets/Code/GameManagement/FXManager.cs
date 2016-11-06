@@ -80,7 +80,7 @@ public class FXManager : MonoBehaviour
 			//don't need to do anything; autodestruct
 			break;
 		case FXType.BloodSpatter:
-			fx.transform.localScale = new Vector3(2, 2, 2);
+			fx.transform.localScale = fx.transform.localScale * 2;
 			BloodSpatter spatter = new BloodSpatter();
 			spatter.Spatter = fx;
 			spatter.TTL = ttl;

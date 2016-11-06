@@ -98,8 +98,8 @@ public class GameManager : MonoBehaviour
 		mutant1.Initialize();
 		mutant1.MyStatus.MaxHealth = 200;
 		mutant1.MyStatus.Health = 200;
-		mutant1.MyAI.BlackBoard.PatrolLoc = new Vector3(60, 0, -11);
-		mutant1.MyAI.BlackBoard.PatrolRange = new Vector3(30, 10, 10);
+		mutant1.MyAI.BlackBoard.PatrolLoc = new Vector3(60, 0, -33);
+		mutant1.MyAI.BlackBoard.PatrolRange = new Vector3(5, 5, 5);
 		mutant1.MyAI.BlackBoard.CombatRange = new Vector3(40, 20, 20);
 		mutant1.MyAI.BlackBoard.HasPatrolInfo = true;
 
@@ -108,8 +108,8 @@ public class GameManager : MonoBehaviour
 		mutant2.Initialize();
 		mutant2.MyStatus.MaxHealth = 100;
 		mutant2.MyStatus.Health = 100;
-		mutant2.MyAI.BlackBoard.PatrolLoc = new Vector3(60, 0, -11);
-		mutant2.MyAI.BlackBoard.PatrolRange = new Vector3(30, 10, 10);
+		mutant2.MyAI.BlackBoard.PatrolLoc = new Vector3(60, 0, -33);
+		mutant2.MyAI.BlackBoard.PatrolRange = new Vector3(5, 5, 5);
 		mutant2.MyAI.BlackBoard.CombatRange = new Vector3(40, 20, 20);
 		mutant2.MyAI.BlackBoard.HasPatrolInfo = true;
 
@@ -117,12 +117,37 @@ public class GameManager : MonoBehaviour
 		mutant2.Initialize();
 		mutant2.MyStatus.MaxHealth = 100;
 		mutant2.MyStatus.Health = 100;
-		mutant2.MyAI.BlackBoard.PatrolLoc = new Vector3(60, 0, -11);
-		mutant2.MyAI.BlackBoard.PatrolRange = new Vector3(30, 10, 10);
+		mutant2.MyAI.BlackBoard.PatrolLoc = new Vector3(60, 0, -33);
+		mutant2.MyAI.BlackBoard.PatrolRange = new Vector3(5, 5, 5);
 		mutant2.MyAI.BlackBoard.CombatRange = new Vector3(40, 20, 20);
 		mutant2.MyAI.BlackBoard.HasPatrolInfo = true;
 
+		mutant2 = GameObject.Find("MutantCharacter4").GetComponent<MutantCharacter>();
+		mutant2.Initialize();
+		mutant2.MyStatus.MaxHealth = 100;
+		mutant2.MyStatus.Health = 100;
+		mutant2.MyAI.BlackBoard.PatrolLoc = new Vector3(60, 0, -33);
+		mutant2.MyAI.BlackBoard.PatrolRange = new Vector3(5, 5, 5);
+		mutant2.MyAI.BlackBoard.CombatRange = new Vector3(40, 20, 20);
+		mutant2.MyAI.BlackBoard.HasPatrolInfo = true;
 
+		mutant2 = GameObject.Find("MutantCharacter5").GetComponent<MutantCharacter>();
+		mutant2.Initialize();
+		mutant2.MyStatus.MaxHealth = 100;
+		mutant2.MyStatus.Health = 100;
+		mutant2.MyAI.BlackBoard.PatrolLoc = new Vector3(60, 0, -33);
+		mutant2.MyAI.BlackBoard.PatrolRange = new Vector3(5, 5, 5);
+		mutant2.MyAI.BlackBoard.CombatRange = new Vector3(40, 20, 20);
+		mutant2.MyAI.BlackBoard.HasPatrolInfo = true;
+
+		mutant2 = GameObject.Find("MutantCharacter6").GetComponent<MutantCharacter>();
+		mutant2.Initialize();
+		mutant2.MyStatus.MaxHealth = 100;
+		mutant2.MyStatus.Health = 100;
+		mutant2.MyAI.BlackBoard.PatrolLoc = new Vector3(60, 0, -33);
+		mutant2.MyAI.BlackBoard.PatrolRange = new Vector3(5, 5, 5);
+		mutant2.MyAI.BlackBoard.CombatRange = new Vector3(40, 20, 20);
+		mutant2.MyAI.BlackBoard.HasPatrolInfo = true;
 
 		//HumanCharacter enemy1 = GameObject.Find("HumanCharacter2").GetComponent<HumanCharacter>();
 		HumanCharacter enemy2 = GameObject.Find("HumanCharacter4").GetComponent<HumanCharacter>();

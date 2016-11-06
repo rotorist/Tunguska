@@ -128,9 +128,12 @@ public class Bullet : MonoBehaviour
 			{
 				hitCharacter.SendDamage(TotalDamage, Penetration, normal, ParentWeapon.Attacker, ParentWeapon);
 			}
-			GameObject impact = GameManager.Inst.FXManager.LoadFX("WFX_BloodSmoke", 0, FXType.BulletImpact);
+
+			GameObject impact = GameManager.Inst.FXManager.LoadFX("GunshotBlood" + UnityEngine.Random.Range(1, 4).ToString(), 1, FXType.BloodSpatter);
+			Debug.DrawRay(pos, normal, new Color(0, 1, 0), 3);
 			impact.transform.position = pos;
-			impact.transform.rotation = Quaternion.LookRotation(this.transform.forward);
+			impact.transform.rotation = Quaternion.LookRotation(normal);
+			impact.transform.parent = collision.collider.transform;
 			ParentWeapon.Attacker.OnSuccessfulHit(hitCharacter);
 
 		}
