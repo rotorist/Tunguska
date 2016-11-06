@@ -1263,7 +1263,10 @@ public class HumanCharacter : Character
 			this.MyStatus.ArmFatigue = this.MyStatus.MaxArmFatigue;
 		}
 
-
+		if(MyAI.ControlType == AIControlType.Player)
+		{
+			GameManager.Inst.CameraShaker.TriggerScreenShake(0.08f, 0.02f);
+		}
 	}
 
 	public override void OnSuccessfulHit (Character target)

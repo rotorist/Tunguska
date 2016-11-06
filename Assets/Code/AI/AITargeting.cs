@@ -192,7 +192,7 @@ public class AITargeting
 					bool willCallForHelp = false;
 					if(_parentCharacter.MyAI.BlackBoard.TargetEnemy == null && _parentCharacter.MyAI.BlackBoard.InvisibleEnemy == null && _parentCharacter.Faction != Faction.FactionA)
 					{
-						_parentCharacter.MyAI.Bark("Got intruder!");
+						//_parentCharacter.MyAI.Bark("Got intruder!");
 						willCallForHelp = true;
 					}
 
