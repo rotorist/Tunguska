@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 public class HUDPanel : PanelBase 
 {
-	public List<HUDPartyMember> MembersBrief;
-	public List<GameObject> MemberSlots;
-	public List<UISprite> CommandButtons;
+	//public List<HUDPartyMember> MembersBrief;
+	//public List<GameObject> MemberSlots;
+	//public List<UISprite> CommandButtons;
 	public UILabel Console;
 	public UISprite Aperture;
 
@@ -20,7 +20,9 @@ public class HUDPanel : PanelBase
 
 	public override void Initialize ()
 	{
+		/*
 		RebuildPartySlots();
+
 		InputEventHandler.OnIssueTaskComplete -= OnCommandComplete;
 		InputEventHandler.OnIssueTaskComplete += OnCommandComplete;
 		InputEventHandler.OnGamePause -= UpdateButtonState;
@@ -30,20 +32,21 @@ public class HUDPanel : PanelBase
 		InputEventHandler.OnSelectActiveMember -= OnSelectActiveMember;
 		InputEventHandler.OnSelectActiveMember += OnSelectActiveMember;
 
+
 		UIEventHandler.OnOpenWindow -= UpdateButtonState;
 		UIEventHandler.OnOpenWindow += UpdateButtonState;
 		UIEventHandler.OnCloseWindow -= UpdateButtonState;
 		UIEventHandler.OnCloseWindow += UpdateButtonState;
 
 		UpdateButtonState();
-
+		*/
 
 	}
 
 	public override void PerFrameUpdate ()
 	{
 		UpdateHealthBars();
-		RefreshCommandButtons();
+		//RefreshCommandButtons();
 		UpdateAperture();
 	}
 
@@ -52,7 +55,7 @@ public class HUDPanel : PanelBase
 		Console.text = text;
 	}
 
-
+	/*
 	public void UpdateButtonState()
 	{
 		if(GameManager.Inst.PlayerControl.IsGamePaused && InputEventHandler.Instance.State == UserInputState.Normal && 
@@ -73,7 +76,6 @@ public class HUDPanel : PanelBase
 	{
 		UpdateButtonState();
 	}
-
 
 
 	public void OnMemberSlotClick()
@@ -112,7 +114,7 @@ public class HUDPanel : PanelBase
 		}
 	}
 
-
+	
 	public void OnCommandSelectGoto()
 	{
 		GameManager.Inst.PlayerControl.Party.ClearTaskForSelectedMember();
@@ -214,7 +216,7 @@ public class HUDPanel : PanelBase
 
 		SetButtonState(8);
 	}
-
+	*/
 
 
 	private void UpdateAperture()
@@ -246,6 +248,7 @@ public class HUDPanel : PanelBase
 
 	private void UpdateHealthBars()
 	{
+		/*
 		foreach(HUDPartyMember m in MembersBrief)
 		{
 			float widthFloat = 100f * (m.Member.MyStatus.Health / m.Member.MyStatus.MaxHealth);
@@ -264,8 +267,10 @@ public class HUDPanel : PanelBase
 				m.Picture.color = new Color(0.4f, 0.4f, 0.4f);
 			}
 		}
+		*/
 	}
 
+	/*
 	private void RebuildPartySlots()
 	{
 		//load all the members from player party
@@ -378,5 +383,7 @@ public class HUDPanel : PanelBase
 			}
 		}
 	}
+
+	*/
 }
 

@@ -58,7 +58,7 @@ public class WindowPanel : PanelBase
 	public override void Show ()
 	{
 
-		GameManager.Inst.UIManager.HUDPanel.OnWindowPanelOpen();
+		//GameManager.Inst.UIManager.HUDPanel.OnWindowPanelOpen();
 		Camera.main.GetComponent<BlurOptimized>().enabled = true;
 
 		Time.timeScale = 0;
@@ -74,7 +74,7 @@ public class WindowPanel : PanelBase
 	public override void Hide ()
 	{
 
-		GameManager.Inst.UIManager.HUDPanel.OnWindowPanelClose();
+		//GameManager.Inst.UIManager.HUDPanel.OnWindowPanelClose();
 		Camera.main.GetComponent<BlurOptimized>().enabled = false;
 		BackgroundNormal.enabled = false;
 		BackgroundTrifold.enabled = false;
